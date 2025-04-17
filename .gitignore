@@ -19,3 +19,6 @@ Thumbs.db
 
 # Ignore vendor folder (if using Composer later)
 vendor/
+
+
+.history
