@@ -1,0 +1,15 @@
+{
+  "name": "fitzone",
+  "version": "1.0.0",
+  "description": "FitZone is a simple fitness center website built using **HTML, CSS, Bootstrap, JavaScript, PHP, and MySQL**. It includes user roles such as **Customer, Staff, and Admin** with basic login and registration functionality.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.3.5"
+  }
+}
