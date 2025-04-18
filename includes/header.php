@@ -30,17 +30,17 @@
                         <a class="nav-link fw-bold" href="#heroCarousel">Home</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link fw-bold" href="#membership">Services</a>
+                        <a class="nav-link fw-bold" href="#services">Services</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link fw-bold" href="#write">Membership</a>
+                        <a class="nav-link fw-bold" href="#membership">Membership</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link fw-bold" href="#signin">Contact</a>
+                        <a class="nav-link fw-bold" href="#contact">Contact</a>
                     </li>
                 </ul>
 
-                <a href="#get-started" class="btn btn-dark ms-3"><span class="nav-link">Get Started</span> </a>
+                <a href="pages/login.php" class="btn btn-dark ms-3"><span class="nav-link">Get Started</span> </a>
             </div>
         </div>
     </nav>

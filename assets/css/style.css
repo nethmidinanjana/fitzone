@@ -149,7 +149,7 @@
 
 /* About: Start */
 
-.about-title-text {
+.title-text {
   font-family: "Montserrat Alternates", sans-serif;
   font-size: 55px;
 }
@@ -172,7 +172,7 @@
 }
 
 @media (min-width: 768px) and (max-width: 992px) {
-  .about-title-text {
+  .title-text {
     font-size: 35px;
   }
 
@@ -191,7 +191,7 @@
 }
 
 @media (max-width: 768px) {
-  .about-title-text {
+  .title-text {
     font-size: 35px;
   }
 
@@ -207,6 +207,348 @@
     width: 100%;
   }
 }
-
-/* 768  992 */
 /* About: End */
+
+/* Services: Start */
+
+.service-name {
+  font-family: "Montserrat Alternates", sans-serif;
+  font-weight: 600;
+}
+
+.service-description {
+  font-family: "Rajdhani", sans-serif;
+  font-weight: 500;
+}
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.card-img-top {
+  transition: transform 0.3s ease;
+}
+
+.card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+/* Services: End */
+
+/* Membership: Start */
+
+.pricing-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+  border-radius: 15px;
+}
+
+.pricing-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.feature-list li {
+  margin-bottom: 0.8rem;
+  color: #6c757d;
+}
+
+.popular-badge {
+  position: absolute;
+  top: -12px;
+  right: 20px;
+  border-radius: 20px;
+}
+
+.gradient-custom {
+  background: linear-gradient(135deg, #ffc017 0%, #e2b848 100%);
+}
+
+/* Membership: End */
+
+/* Contact: Start */
+
+.contact-form {
+  font-family: "Montserrat Alternates", sans-serif;
+}
+.form-control {
+  background-color: rgba(16, 23, 27, 0.96);
+  color: white;
+  border: none;
+  border-radius: 1rem;
+}
+.form-control::placeholder {
+  color: #9ca3af; /* Tailwind gray-400 */
+  font-weight: 400;
+}
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(234, 214, 31, 0.25);
+}
+.submit-btn {
+  background-color: #ffc017 !important;
+  color: white;
+  border-radius: 1rem;
+  font-weight: 600;
+}
+.submit-btn:hover {
+  opacity: 0.9;
+}
+
+/* Contact: End */
+
+/* Footer: Start */
+
+.footer {
+  background: linear-gradient(145deg, rgb(0, 0, 0), #242730);
+  color: #ffffff;
+}
+
+.footer-title {
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.footer-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  width: 30px;
+  height: 2px;
+  background: #ffc017;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 1rem;
+}
+
+.footer-links a {
+  color: #b4b6bb;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #ffffff;
+  padding-left: 5px;
+}
+
+.social-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+  background: #ffc017;
+  transform: translateY(-3px);
+}
+
+.newsletter-input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.newsletter-input:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #6c5ce7;
+  color: #ffffff;
+  box-shadow: none;
+}
+
+.btn-subscribe {
+  background: rgb(255, 255, 255);
+  border: none;
+  padding: 0.5rem 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.btn-subscribe:hover {
+  background: rgb(180, 186, 209);
+  transform: translateY(-2px);
+}
+
+.footer-bottom {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.footer-bottom a {
+  color: #6c5ce7;
+  text-decoration: none;
+}
+
+.footer-bottom a:hover {
+  color: #ffffff;
+}
+
+/* Footer: End */
+
+/* Profile Sidebar: Start */
+
+/* Sidebar default styles */
+.custom-sidebar {
+  width: 250px;
+  height: 100vh;
+  position: fixed; /* 🛠️ Fix added */
+  top: 0;
+  left: 0;
+  overflow-y: auto; /* Enables scrolling in the sidebar if needed */
+  background-color: #343a40;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+#custom-content {
+  margin-left: 250px; /* Default for large screens */
+  padding: 20px;
+}
+
+/* Override on small screens */
+@media (max-width: 768px) {
+  #custom-content {
+    margin-left: 0; /* Reset on mobile */
+  }
+}
+
+/* Sidebar links */
+.custom-sidebar-link {
+  font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.custom-sidebar-link:hover {
+  background-color: #ffc107;
+  color: #000 !important;
+}
+
+/* Responsive sidebar behavior */
+@media (max-width: 768px) {
+  #custom-sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    transition: left 0.3s ease-in-out;
+    z-index: 1000;
+  }
+
+  #custom-sidebar.show {
+    left: 0;
+  }
+
+  #custom-content {
+    width: 100%;
+  }
+
+  /* Overlay effect when sidebar is open */
+  #custom-wrapper.overlay::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 900;
+  }
+}
+
+.profile-section-header {
+  font-family: "Montserrat Alternates", sans-serif;
+}
+
+.rounded-box {
+  min-height: 100px;
+  color: white;
+  padding: 20px;
+}
+
+.personal-details-title {
+  font-family: "Raleway", sans-serif;
+}
+
+/* Profile- Schedule section: Start */
+
+.single-schedules-inner {
+  background-color: #fff;
+  box-shadow: 0px 3px 15px 0px rgba(184, 40, 88, 0.08);
+  padding: 30px 30px 35px 30px;
+  margin-bottom: 30px;
+  transition: 0.4s;
+  border-radius: 20px;
+}
+.single-schedules-inner .date {
+  color: var(--main-color);
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+.single-schedules-inner .date i {
+  color: #646e85;
+  margin-right: 3px;
+}
+.single-schedules-inner h5 {
+  line-height: 36px;
+  margin-bottom: 18px;
+}
+.single-schedules-inner .icons {
+  margin-bottom: 20px;
+}
+.single-schedules-inner p {
+  margin-bottom: 0;
+}
+.single-schedules-inner .media {
+  margin-top: 43px;
+}
+.single-schedules-inner .media .media-left {
+  margin-right: 15px;
+}
+.single-schedules-inner .media .media-left img {
+  height: 60px;
+  width: 60px;
+  border-radius: 10px;
+}
+.single-schedules-inner .media .media-body h6 {
+  font-weight: 500;
+  margin-bottom: 0;
+}
+.single-schedules-inner .media .media-body p {
+  margin-bottom: 0;
+  font-size: 12px;
+  font-weight: 500;
+}
+.single-schedules-inner:hover {
+  box-shadow: 0px 6px 30px 0px rgba(184, 40, 88, 0.2);
+}
+.single-schedules-inner.lunch-schedules {
+  height: 93.1%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Profile- Schedule section: End */
+
+/* Profile Sidebar: End */
