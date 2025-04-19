@@ -16,6 +16,25 @@
             color: black;
             opacity: 0.8;
         }
+
+        .class-radio {
+            display: none;
+        }
+
+        .class-card {
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .class-radio:checked+.class-card {
+            border-color: #ffc107;
+            background-color: #fff8e1;
+        }
+
+        .class-card:hover {
+            border-color: #ffc107;
+        }
     </style>
 </head>
 
@@ -33,7 +52,7 @@
                 <!-- Left-aligned links -->
                 <ul class="nav flex-column mt-4">
                     <li class="nav-item mb-2">
-                        <a href="#" class="nav-link text-white custom-sidebar-link" data-section="dashboard">Dashboard</a>
+                        <a href="#" class="nav-link text-white custom-sidebar-link" data-section="profile">Profile</a>
                     </li>
                     <li class="nav-item mb-2">
                         <a href="#" class="nav-link text-white custom-sidebar-link" data-section="my_schedule">My Schedules</a>
@@ -61,8 +80,8 @@
             <button class="btn btn-warning mb-3 d-md-none" id="custom-toggle-btn">☰ Menu</button>
 
             <!-- Section Content -->
-            <div id="dashboard" class="custom-section">
-                <h2 class="profile-section-header fw-bold">Dashboard</h2>
+            <div id="profile" class="custom-section">
+                <h2 class="profile-section-header fw-bold">Profile</h2>
                 <div class=" mt-4">
                     <div class="row">
                         <div class="col-md-4 col-12 mb-4">
@@ -110,6 +129,47 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- If membership is pending -->
+
+                <?php if (true) {
+                ?>
+                    <div class="container">
+                        <h3 class="mb-3 personal-details-title">Activate Membership</h3>
+                        <hr />
+
+                        <!-- Alert with Bank Details -->
+                        <div class="alert alert-danger" role="alert">
+                            <strong>Bank Deposit Instructions:</strong><br />
+                            Please deposit the payment to the following bank account and upload the deposit slip below:
+                            <ul class="mt-2 mb-0">
+                                <li><strong>Bank:</strong> Bank of Ceylon</li>
+                                <li><strong>Branch:</strong> Galle</li>
+                                <li><strong>Account Name:</strong> FitZone Fitness Center</li>
+                                <li><strong>Account Number:</strong> 1234567890</li>
+                            </ul>
+                        </div>
+
+                        <!-- Upload + Button Row -->
+                        <form class="mb-5">
+                            <div class="row align-items-center gy-3">
+                                <label for="depositSlip" class="form-label">Upload Deposit Slip</label>
+                                <div class="col-md-8">
+                                    <input type="file" class="form-control" id="depositSlip" required />
+                                </div>
+
+                                <div class="col-md-4 text-md-end">
+                                    <button type="submit" class="btn btn-warning w-100 w-md-auto mt-2 mt-md-0">
+                                        Activate Membership
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                <?php
+                } ?>
+
+
                 <div class="mt-3 border rounded border-1 py-4 px-4 bg-light">
                     <h4 class="personal-details-title" style="font-weight: 500; margin-bottom: 15px;">Personal Details</h4>
                     <form onsubmit="updateProfile(event)">
@@ -202,52 +262,57 @@
                     <div class="row py-3">
                         <div class="col-lg-4 col-md-6">
                             <div class="single-schedules-inner">
-                                <div class="date">
-                                    <i class="fa fa-clock-o"></i>
-                                    5:00pm -6:30pm
+                                <div class="date d-flex align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-alarm" viewBox="0 0 16 16">
+                                        <path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9z" />
+                                        <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1zm1.038 3.018a6 6 0 0 1 .924 0 6 6 0 1 1-.924 0M0 3.5c0 .753.333 1.429.86 1.887A8.04 8.04 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5M13.5 1c-.753 0-1.429.333-1.887.86a8.04 8.04 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1" />
+                                    </svg>
+                                    <span class="ms-2">2025/04/19 - 5:00pm -6:30pm</span>
+
                                 </div>
-                                <h5>Improving the quality of the management.</h5>
-                                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua</p>
+                                <h5>Full Body Strength Training</h5>
+                                <p>Burn fat and build muscle with a high-intensity full-body workout targeting all major muscle groups.</p>
                                 <div class="media">
-                                    <div class="media-left">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="img">
-                                    </div>
                                     <div class="media-body align-self-center">
-                                        <h6>Dr. Ariful Islam Abid</h6>
-                                        <p>Ceo of AIA software agency, USA.</p>
+                                        <h6>Instructor: John Carter</h6>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6">
                             <div class="single-schedules-inner">
-                                <div class="date">
-                                    <i class="fa fa-clock-o"></i>
-                                    5:00pm -6:30pm
+                                <div class="date d-flex align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-alarm" viewBox="0 0 16 16">
+                                        <path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9z" />
+                                        <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1zm1.038 3.018a6 6 0 0 1 .924 0 6 6 0 1 1-.924 0M0 3.5c0 .753.333 1.429.86 1.887A8.04 8.04 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5M13.5 1c-.753 0-1.429.333-1.887.86a8.04 8.04 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1" />
+                                    </svg>
+                                    <span class="ms-2">2025/04/19 - 5:00pm -6:30pm</span>
+
                                 </div>
-                                <h5>Improving the quality of the management.</h5>
-                                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua</p>
+                                <h5>Full Body Strength Training</h5>
+                                <p>Burn fat and build muscle with a high-intensity full-body workout targeting all major muscle groups.</p>
                                 <div class="media">
-                                    <div class="media-left">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="img">
-                                    </div>
                                     <div class="media-body align-self-center">
-                                        <h6>Dr. Ariful Islam Abid</h6>
-                                        <p>Ceo of AIA software agency, USA.</p>
+                                        <h6>Instructor: John Carter</h6>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6">
-                            <div class="single-schedules-inner lunch-schedules text-center">
-                                <div class="lunch-schedules-inner align-self-center">
-                                    <div class="icons">
-                                        <img src="https://www.bootdey.com/image/200x200/00FFFF/000000" alt="img">
-                                    </div>
-                                    <h5>Lunch Break</h5>
-                                    <div class="date">
-                                        <i class="fa fa-clock-o"></i>
-                                        5:00pm -6:30pm
+                            <div class="single-schedules-inner">
+                                <div class="date d-flex align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-alarm" viewBox="0 0 16 16">
+                                        <path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9z" />
+                                        <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1zm1.038 3.018a6 6 0 0 1 .924 0 6 6 0 1 1-.924 0M0 3.5c0 .753.333 1.429.86 1.887A8.04 8.04 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5M13.5 1c-.753 0-1.429.333-1.887.86a8.04 8.04 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1" />
+                                    </svg>
+                                    <span class="ms-2">2025/04/19 - 5:00pm -6:30pm</span>
+
+                                </div>
+                                <h5>Full Body Strength Training</h5>
+                                <p>Burn fat and build muscle with a high-intensity full-body workout targeting all major muscle groups.</p>
+                                <div class="media">
+                                    <div class="media-body align-self-center">
+                                        <h6>Instructor: John Carter</h6>
                                     </div>
                                 </div>
                             </div>
@@ -259,21 +324,167 @@
 
             <div id="classes" class="custom-section d-none">
                 <h2 class="profile-section-header fw-bold">Classes</h2>
-                <p>Here are your past orders.</p>
-            </div>
+                <div class="py-3">
+                    <div class="row" id="classCardsContainer">
+                        <!-- Example card -->
+                        <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                            <label>
+                                <input type="radio" name="selectedClass" class="class-radio" value="class-id-1" />
+                                <div class="card class-card p-3 h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title personal-details-title" style="font-weight: 600;">Yoga Basics</h5>
+                                        <p class="card-text personal-details-title">Learn yoga with expert guidance. Perfect for beginners.</p>
+                                        <ul class="mb-2">
+                                            <li><strong>Date:</strong> 2024-04-25</li>
+                                            <li><strong>Time:</strong> 6:00 PM - 7:00 PM</li>
+                                            <li><strong>Instructor:</strong> Jane Doe</li>
+                                            <li><strong>Price:</strong> $30/month</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                            <label>
+                                <input type="radio" name="selectedClass" class="class-radio" value="class-id-1" />
+                                <div class="card class-card p-3 h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title personal-details-title" style="font-weight: 600;">Yoga Basics</h5>
+                                        <p class="card-text personal-details-title">Learn yoga with expert guidance. Perfect for beginners.</p>
+                                        <ul class="mb-2">
+                                            <li><strong>Date:</strong> 2024-04-25</li>
+                                            <li><strong>Time:</strong> 6:00 PM - 7:00 PM</li>
+                                            <li><strong>Instructor:</strong> Jane Doe</li>
+                                            <li><strong>Price:</strong> $30/month</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                            <label>
+                                <input type="radio" name="selectedClass" class="class-radio" value="class-id-1" />
+                                <div class="card class-card p-3 h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title personal-details-title" style="font-weight: 600;">Yoga Basics</h5>
+                                        <p class="card-text personal-details-title">Learn yoga with expert guidance. Perfect for beginners.</p>
+                                        <ul class="mb-2">
+                                            <li><strong>Date:</strong> 2024-04-25</li>
+                                            <li><strong>Time:</strong> 6:00 PM - 7:00 PM</li>
+                                            <li><strong>Instructor:</strong> Jane Doe</li>
+                                            <li><strong>Price:</strong> $30/month</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="container my-5">
+                        <h3 class="mb-3 personal-details-title">Register for a Class</h3>
+                        <hr />
 
+                        <!-- Alert with Bank Details -->
+                        <div class="alert alert-danger" role="alert">
+                            <strong>Bank Deposit Instructions:</strong><br />
+                            Please deposit the payment to the following bank account and upload the deposit slip below:
+                            <ul class="mt-2 mb-0">
+                                <li><strong>Bank:</strong> Bank of Ceylon</li>
+                                <li><strong>Branch:</strong> Galle</li>
+                                <li><strong>Account Name:</strong> FitZone Fitness Center</li>
+                                <li><strong>Account Number:</strong> 1234567890</li>
+                            </ul>
+                        </div>
+
+                        <div class="alert alert-info d-flex align-items-center" role="alert">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2" />
+                            </svg>
+                            <div class="ms-2">
+                                <strong>Heads up!</strong> Please select the class from above before clicking the <strong>Register Now</strong> button.
+                            </div>
+                        </div>
+
+
+                        <!-- Upload + Button Row -->
+                        <form>
+                            <div class="row align-items-center gy-3">
+                                <label for="depositSlip" class="form-label">Upload Deposit Slip</label>
+                                <div class="col-md-8">
+                                    <input type="file" class="form-control" id="depositSlip" required />
+                                </div>
+
+                                <div class="col-md-4 text-md-end">
+                                    <button type="submit" class="btn btn-warning w-100 w-md-auto mt-2 mt-md-0">
+                                        Register Now
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+            </div>
             <div id="inquiries" class="custom-section d-none">
-                <h2 class="profile-section-header fw-bold">Inquiries</h2>
-                <p>You have been logged out (not really, just placeholder).</p>
+
+                <h2 class="mb-3 profile-section-header fw-bold">Submit an Inquiry</h2>
+                <div class="alert alert-warning personal-details-title" role="alert">
+                    Need help? Send us your inquiry and our staff will respond shortly.
+                </div>
+
+                <!-- Inquiry Form -->
+                <form id="inquiryForm" class="mb-4">
+                    <div class="mb-3">
+                        <label for="inquirySubject" class="form-label personal-details-title">Subject</label>
+                        <input type="text" class="form-control bg-white border" id="inquirySubject" placeholder="e.g., Issue with class schedule" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="inquiryMessage" class="form-label personal-details-title">Message</label>
+                        <textarea class="form-control bg-white border" id="inquiryMessage" rows="4" placeholder="Type your inquiry here..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-warning personal-details-title">Send Inquiry</button>
+                </form>
+
+                <!-- Replies Section -->
+                <h4 class="mb-3 personal-details-title">Your Previous Inquiries & Replies</h4>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover service-description">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Your Message</th>
+                                <th scope="col">Staff Reply</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Sample row -->
+                            <tr>
+                                <td>2025/04/19</td>
+                                <td>Can I move my Yoga class to Monday?</td>
+                                <td>Yes, we've rescheduled it to Monday 6PM.</td>
+                                <td><span class="badge bg-success">Replied</span></td>
+                            </tr>
+                            <tr>
+                                <td>2025/04/19</td>
+                                <td>I paid but it doesn't reflect.</td>
+                                <td>We're checking with accounts. Will update soon.</td>
+                                <td><span class="badge bg-warning text-dark">Pending</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+
         </div>
-    </div>
 
-    <!-- Bootstrap Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap Bundle -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Sidebar Toggle and Page Section Switcher -->
-    <script src="../assets/js/script.js"></script>
+        <!-- Sidebar Toggle and Page Section Switcher -->
+        <script src="../assets/js/script.js"></script>
 </body>
 
 </html>
