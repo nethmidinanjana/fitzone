@@ -434,10 +434,6 @@
 
                 <!-- Inquiry Form -->
                 <form id="inquiryForm" class="mb-4">
-                    <div class="mb-3">
-                        <label for="inquirySubject" class="form-label personal-details-title">Subject</label>
-                        <input type="text" class="form-control bg-white border" id="inquirySubject" placeholder="e.g., Issue with class schedule" required>
-                    </div>
 
                     <div class="mb-3">
                         <label for="inquiryMessage" class="form-label personal-details-title">Message</label>
