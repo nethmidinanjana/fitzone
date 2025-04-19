@@ -152,19 +152,34 @@
 
                         <!-- Upload + Button Row -->
                         <form class="mb-5">
-                            <div class="row align-items-center gy-3">
-                                <label for="depositSlip" class="form-label">Upload Deposit Slip</label>
-                                <div class="col-md-8">
-                                    <input type="file" class="form-control" id="depositSlip" required />
+                            <div class="row gy-3 align-items-center">
+                               
+                                <!-- File input -->
+                                <div class="col-md-6">
+                                    <label for="depositSlip" class="form-label personal-details-title">Upload Deposit Slip</label>
+                                    <input type="file" class="form-control bg-white border" id="depositSlip" required />
                                 </div>
 
-                                <div class="col-md-4 text-md-end">
-                                    <button type="submit" class="btn btn-warning w-100 w-md-auto mt-2 mt-md-0">
+                                <!-- Membership Plan Selector -->
+                                <div class="col-md-6">
+                                    <label for="membershipPlan" class="form-label personal-details-title">Select Membership Plan</label>
+                                    <select class="form-select bg-white border" id="membershipPlan" required>
+                                        <option value="" selected disabled>Choose a plan</option>
+                                        <option value="basic">Basic</option>
+                                        <option value="standard">Standard</option>
+                                        <option value="premium">Premium</option>
+                                    </select>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="col-12 text-md-end">
+                                    <button type="submit" class="btn btn-warning w-100 w-md-auto">
                                         Activate Membership
                                     </button>
                                 </div>
                             </div>
                         </form>
+
                     </div>
                 <?php
                 } ?>
@@ -410,7 +425,7 @@
                             <div class="row align-items-center gy-3">
                                 <label for="depositSlip" class="form-label">Upload Deposit Slip</label>
                                 <div class="col-md-8">
-                                    <input type="file" class="form-control" id="depositSlip" required />
+                                    <input type="file" class="form-control bg-white border" id="depositSlip" required />
                                 </div>
 
                                 <div class="col-md-4 text-md-end">
