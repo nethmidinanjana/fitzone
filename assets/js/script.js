@@ -13,8 +13,15 @@ function toggleAuth(formId) {
     }
 }
 
+// Register/ Sign Up
 function validateSignUp(event) {
     event.preventDefault();
+
+    const registerBtn = document.getElementById("register_btn");
+    const originalBtnText = registerBtn.innerHTML;
+
+    registerBtn.disabled = true;
+    registerBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Registering...`;
 
     const password = document.getElementById("passwordSignUp").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
@@ -22,11 +29,152 @@ function validateSignUp(event) {
 
     if (password !== confirmPassword) {
         mismatchText.classList.remove("d-none");
+
+        registerBtn.disabled = false;
+        registerBtn.innerHTML = originalBtnText;
+        return;
     } else {
         mismatchText.classList.add("d-none");
-        alert("Form submitted successfully!");
-        // Add your backend submission logic here
+
+        const first_name = document.getElementById("firstName").value;
+        const last_name = document.getElementById("lastName").value;
+        const email = document.getElementById("emailSignUp").value;
+        const phone = document.getElementById("phone").value;
+
+        const form = new FormData();
+        form.append("first_name", first_name);
+        form.append("last_name", last_name);
+        form.append("email", email);
+        form.append("phone", phone);
+        form.append("password", password);
+
+        const request = new XMLHttpRequest();
+
+        request.onreadystatechange = function () {
+            if (request.readyState === 4) {
+                const response = request.responseText.trim();
+                console.log("Server response:", response);
+
+                // Restore the button state
+                registerBtn.disabled = false;
+                registerBtn.innerHTML = originalBtnText;
+
+                if (response === "success") {
+                    openVerificationModal(email);
+                } else {
+                    alert(response);
+                }
+            }
+        }
+
+        request.open("POST", "/fitzone/process/signUpProcess.php", true);
+        request.send(form);
     }
+}
+
+
+function openVerificationModal(email) {
+
+    const modal = document.getElementById("verificationModal");
+
+    if (!modal) {
+        alert("Modal element not found!");
+        return;
+    }
+
+    document.getElementById("modalEmail").innerText = email;
+
+    modal.classList.add("active");
+
+    const input = document.getElementById("verificationCodeInput");
+    if (input) input.focus();
+}
+
+
+function verifyCode() {
+    const email = document.getElementById("modalEmail").innerText;
+    const code = document.getElementById("verificationCodeInput").value;
+
+    const form = new FormData();
+    form.append("email", email);
+    form.append("code", code);
+
+    const request = new XMLHttpRequest();
+
+    request.onreadystatechange = function () {
+        if (request.readyState == 4) {
+            const response = request.responseText.trim();
+            console.log(response);
+            if (response === "verified") {
+                alert("Email verified! You can now log in.");
+                document.getElementById("verificationModal").classList.remove("active");
+
+                toggleAuth("signin");
+                document.getElementById("firstName").value = "";
+                document.getElementById("lastName").value = "";
+                document.getElementById("emailSignUp").value = "";
+                document.getElementById("phone").value = "";
+                document.getElementById("passwordSignUp").value = "";
+                document.getElementById("confirmPassword").value = "";
+
+            } else {
+                alert("Invalid verification code.");
+            }
+        }
+    };
+
+    request.open("POST", "/fitzone/process/verifyEmail.php", true);
+    request.send(form);
+}
+
+// Sign In/Log In
+document.getElementById("togglePassword").addEventListener("click", function () {
+    const passwordField = document.getElementById("passwordSignIn");
+    const eyeIcon = document.getElementById("eyeIcon");
+
+    // Toggle password visibility
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        eyeIcon.classList.remove("fa-eye-slash");
+        eyeIcon.classList.add("fa-eye");
+    } else {
+        passwordField.type = "password";
+        eyeIcon.classList.remove("fa-eye");
+        eyeIcon.classList.add("fa-eye-slash");
+    }
+});
+
+
+function signIn(event) {
+    event.preventDefault();
+    var email = document.getElementById("emailSignIn");
+    var password = document.getElementById("passwordSignIn");
+    var rememberme = document.getElementById("rememberMe");
+
+    var f = new FormData();
+    f.append("e", email.value);
+    f.append("p", password.value);
+    f.append("r", rememberme.checked);
+
+    var r = new XMLHttpRequest();
+
+    r.onreadystatechange = function () {
+        if (r.readyState == 4) {
+            var t = r.responseText;
+            // If the response is success and the role is returned
+            if (t === "customer") {
+                window.location.href = "/fitzone/pages/profile.php"; // Redirect to profile for customer
+            } else if (t === "staff" || t === "admin") {
+                window.location.href = "/fitzone/admin/dashboard.php"; // Redirect to admin dashboard for staff/admin
+            } else if (t === "Invalid username or password") {
+                alert(t); 
+            }
+        }
+    }
+
+    r.open("POST", "/fitzone/process/signInProcess.php", true);
+    r.send(f);
+
 }
 
 // Login page: End

@@ -17,6 +17,8 @@
 
     <?php include "includes/header.php" ?>
 
+
+
     <!-- Hero Section -->
     <section id="heroCarousel" class="carousel slide carousel-fade position-relative" data-bs-ride="carousel" data-bs-interval="5000">
         <!-- Background images -->
@@ -39,7 +41,7 @@
                 <br>lifestyle starts here!
             </p>
 
-            <button class="button-join-now mt-10 text-black" role="button">Join now</button>
+            <button class="button-join-now mt-10 text-black" role="button" onclick="window.location.href='pages/login.php'">Join now</button>
         </div>
     </section>
 

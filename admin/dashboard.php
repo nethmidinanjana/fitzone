@@ -152,9 +152,6 @@
                         <a href="#" class="nav-link text-white custom-sidebar-link" data-section="classes">Class Management</a>
                     </li>
                     <li class="nav-item mb-2">
-                        <a href="#" class="nav-link text-white custom-sidebar-link" data-section="appoinments">Appoinment Management</a>
-                    </li>
-                    <li class="nav-item mb-2">
                         <a href="#" class="nav-link text-white custom-sidebar-link" data-section="inquiries">Inquiry Managemnt</a>
                     </li>
                 </ul>
@@ -452,34 +449,41 @@
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label for="title" class="form-label">Class Title</label>
-                                    <input type="text" class="form-control bg-white border" id="title" required>
+                                    <input type="text" class="form-control bg-white border text-black" id="title" required>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label for="instructor" class="form-label">Instructor</label>
-                                    <input type="text" class="form-control bg-white border" id="instructor" required>
+                                    <select class="form-control bg-white border text-black" id="instructor" required>
+                                        <option value="">Select an instructor</option>
+                                        <option value="instructor1">Instructor 1</option>
+                                        <option value="instructor2">Instructor 2</option>
+                                        <option value="instructor3">Instructor 3</option>
+                                        <!-- Add more options as needed -->
+                                    </select>
                                 </div>
+
 
                                 <div class="col-12">
                                     <label for="description" class="form-label">Description</label>
-                                    <textarea class="form-control bg-white border" id="description" rows="2" required></textarea>
+                                    <textarea class="form-control bg-white border text-black" id="description" rows="2" required></textarea>
                                 </div>
 
                                 <div class="col-md-4">
                                     <label for="date" class="form-label">Date</label>
-                                    <input type="date" class="form-control bg-white border" id="date" required>
+                                    <input type="date" class="form-control bg-white border text-black" id="date" required>
                                 </div>
 
                                 <div class="col-md-4">
                                     <label for="time" class="form-label">Time</label>
-                                    <input type="time" class="form-control bg-white border" id="time" required>
+                                    <input type="time" class="form-control bg-white border text-black" id="time" required>
                                 </div>
 
                                 <div class="col-md-4">
                                     <label for="price" class="form-label">Price (LKR/month)</label>
                                     <div class="input-group">
                                         <span class="input-group-text bg-white border">RS</span>
-                                        <input type="number" class="form-control bg-white border" id="price" placeholder="30" min="0" step="1" required>
+                                        <input type="number" class="form-control bg-white border text-black" id="price" placeholder="30" min="0" step="1" required>
                                     </div>
                                 </div>
 
@@ -500,34 +504,40 @@
 
                                 <div class="col-md-6">
                                     <label for="classTitle" class="form-label">Class Title</label>
-                                    <input type="text" class="form-control bg-white border" id="classTitle" placeholder="Yoga Basics" required>
+                                    <input type="text" class="form-control bg-white border text-black" id="classTitle" placeholder="Yoga Basics" required>
                                 </div>
 
                                 <div class="col-md-6">
                                     <label for="instructor" class="form-label">Instructor</label>
-                                    <input type="text" class="form-control bg-white border" id="instructor" placeholder="Jane Doe" required>
+                                    <select class="form-control bg-white border text-black" id="instructor" required>
+                                        <option value="">Select an instructor</option>
+                                        <option value="instructor1">Instructor 1</option>
+                                        <option value="instructor2">Instructor 2</option>
+                                        <option value="instructor3">Instructor 3</option>
+                                        <!-- Add more options as needed -->
+                                    </select>
                                 </div>
 
                                 <div class="col-md-12">
                                     <label for="description" class="form-label">Description</label>
-                                    <textarea class="form-control bg-white border" id="description" rows="3" placeholder="Learn yoga with expert guidance. Perfect for beginners." required></textarea>
+                                    <textarea class="form-control bg-white border text-black" id="description" rows="3" placeholder="Learn yoga with expert guidance. Perfect for beginners." required></textarea>
                                 </div>
 
                                 <div class="col-md-4">
                                     <label for="date" class="form-label">Date</label>
-                                    <input type="date" class="form-control bg-white border" id="date" required>
+                                    <input type="date" class="form-control bg-white border text-black" id="date" required>
                                 </div>
 
                                 <div class="col-md-4">
                                     <label for="time" class="form-label">Time</label>
-                                    <input type="time" class="form-control bg-white border" id="time" required>
+                                    <input type="time" class="form-control bg-white border text-black" id="time" required>
                                 </div>
 
                                 <div class="col-md-4">
                                     <label for="price" class="form-label">Price (LKR/month)</label>
                                     <div class="input-group">
-                                        <span class="input-group-text bg-white border">RS</span>
-                                        <input type="number" class="form-control bg-white border" id="price" placeholder="30" min="0" required>
+                                        <span class="input-group-text border">RS</span>
+                                        <input type="number" class="form-control bg-white border text-black" id="price" placeholder="30" min="0" required>
                                     </div>
                                 </div>
 
@@ -546,115 +556,6 @@
 
             </div>
 
-            <div id="appoinments" class="custom-section d-none">
-
-                <div class="">
-                    <h3 class="mb-3 personal-details-title">Appointment Management</h3>
-                    <hr />
-
-                    <!-- 🔍 Search Filters -->
-                    <div class="row mb-4 gy-2">
-                        <div class="col-md-8">
-                            <input type="text" class="form-control bg-white border" placeholder="Search by member or trainer..." />
-                        </div>
-                        <div class="col-md-4">
-                            <select class="form-select bg-white border">
-                                <option>Status</option>
-                                <option>Pending</option>
-                                <option>Confirmed</option>
-                                <option>Cancelled</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- 📅 Appointment Cards -->
-                    <div class="row gy-4" id="appointmentCards">
-
-                        <!-- Example Appointment Card -->
-                        <div class="col-lg-3 col-md-4 col-12">
-                            <div class="card dashboard-card h-100 shadow-sm p-3 border">
-                                <div class="card-body p-2">
-                                    <h5 class="card-title fw-bold mb-2 personal-details-title">John Doe</h5>
-                                    <p class="mb-1"><strong>Consultant:</strong> Jane Doe</p>
-                                    <p class="mb-1"><strong>Date:</strong> 2024-04-26</p>
-                                    <p class="mb-1"><strong>Time:</strong> 6:00 PM</p>
-                                    <p class="mb-2"><strong>Status:</strong>
-                                        <span class="badge bg-warning text-dark">Pending</span>
-                                    </p>
-
-                                    <!-- Action Buttons -->
-                                    <div class="d-flex justify-content-between mt-3">
-                                        <button class="btn btn-sm btn-outline-primary px-3">Edit</button>
-                                        <button class="btn btn-sm btn-outline-danger px-3">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-4 col-12">
-                            <div class="card dashboard-card h-100 shadow-sm p-3 border">
-                                <div class="card-body p-2">
-                                    <h5 class="card-title fw-bold mb-2 personal-details-title">John Doe</h5>
-                                    <p class="mb-1"><strong>Consultant:</strong> Jane Doe</p>
-                                    <p class="mb-1"><strong>Date:</strong> 2024-04-26</p>
-                                    <p class="mb-1"><strong>Time:</strong> 6:00 PM</p>
-                                    <p class="mb-2"><strong>Status:</strong>
-                                        <span class="badge bg-warning text-dark">Pending</span>
-                                    </p>
-
-                                    <!-- Action Buttons -->
-                                    <div class="d-flex justify-content-between mt-3">
-                                        <button class="btn btn-sm btn-outline-primary px-3">Edit</button>
-                                        <button class="btn btn-sm btn-outline-danger px-3">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-4 col-12">
-                            <div class="card dashboard-card h-100 shadow-sm p-3 border">
-                                <div class="card-body p-2">
-                                    <h5 class="card-title fw-bold mb-2 personal-details-title">John Doe</h5>
-                                    <p class="mb-1"><strong>Consultant:</strong> Jane Doe</p>
-                                    <p class="mb-1"><strong>Date:</strong> 2024-04-26</p>
-                                    <p class="mb-1"><strong>Time:</strong> 6:00 PM</p>
-                                    <p class="mb-2"><strong>Status:</strong>
-                                        <span class="badge bg-warning text-dark">Pending</span>
-                                    </p>
-
-                                    <!-- Action Buttons -->
-                                    <div class="d-flex justify-content-between mt-3">
-                                        <button class="btn btn-sm btn-outline-primary px-3">Edit</button>
-                                        <button class="btn btn-sm btn-outline-danger px-3">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-4 col-12">
-                            <div class="card dashboard-card h-100 shadow-sm p-3 border">
-                                <div class="card-body p-2">
-                                    <h5 class="card-title fw-bold mb-2 personal-details-title">John Doe</h5>
-                                    <p class="mb-1"><strong>Consultant:</strong> Jane Doe</p>
-                                    <p class="mb-1"><strong>Date:</strong> 2024-04-26</p>
-                                    <p class="mb-1"><strong>Time:</strong> 6:00 PM</p>
-                                    <p class="mb-2"><strong>Status:</strong>
-                                        <span class="badge bg-warning text-dark">Pending</span>
-                                    </p>
-
-                                    <!-- Action Buttons -->
-                                    <div class="d-flex justify-content-between mt-3">
-                                        <button class="btn btn-sm btn-outline-primary px-3">Edit</button>
-                                        <button class="btn btn-sm btn-outline-danger px-3">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
 
             <div id="inquiries" class="custom-section d-none">
                 <h2 class="mb-3 profile-section-header fw-bold">Manage Inquiries</h2>
