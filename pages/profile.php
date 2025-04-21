@@ -80,7 +80,7 @@
 
                 <!-- Logout Button at the Bottom -->
                 <div class="mt-auto p-3">
-                    <button  class="btn btn-danger w-100" data-section="logout" onclick="logout();">Logout</button>
+                    <button class="btn btn-danger w-100" data-section="logout" onclick="logout();">Logout</button>
                 </div>
             </nav>
 
@@ -144,7 +144,7 @@
                                             <?php
                                             if ($has_membership) {
                                             ?>
-                                                <h5 class="profile-section-header fw-bold mb-1"><?php $membership_data["membership_id"] ?></h5>
+                                                <h5 class="profile-section-header fw-bold mb-1"><?php echo $membership_data["membership_id"] ?></h5>
                                             <?php
                                             } else {
                                             ?>
@@ -168,7 +168,7 @@
                                             <?php
                                             if ($has_membership) {
                                             ?>
-                                                <h5 class="profile-section-header fw-bold mb-1"><?php $membership_data["name"]; ?></h5>
+                                                <h5 class="profile-section-header fw-bold mb-1"><?php echo $membership_data["name"]; ?></h5>
                                             <?php
                                             } else {
                                             ?>
@@ -196,6 +196,10 @@
                     ?>
                                 <div class='alert alert-warning'>Your membership request is currently pending. Please wait for approval.</div>
 
+                            <?php
+                            } else if ($memb_req_data["status"] == "denied") {
+                            ?>
+                                <div class='alert alert-danger'>Your membership request has denied. Please contact staff for more details or send and inquiry.</div>
                             <?php
                             }
                         } else {
@@ -283,7 +287,7 @@
                                 </div>
 
                                 <?php
-                                $userdata_rs = Database::search("SELECT * FROM `user`");
+                                $userdata_rs = Database::search("SELECT * FROM `user` WHERE `user_id` = '" . $user_id . "'");
 
                                 if ($userdata_rs->num_rows > 0) {
                                     $usrdata = $userdata_rs->fetch_assoc();

@@ -120,452 +120,486 @@
 </head>
 
 <body>
-    <div class="d-flex" id="custom-wrapper">
-        <nav id="custom-sidebar" class="custom-sidebar bg-dark text-white d-flex flex-column">
-            <div class="p-3 flex-grow-1">
-                <!-- Centered logo and heading -->
-                <div class="d-flex flex-column align-items-center text-center">
-                    <a href="/fitzone">
-                        <img src="../assets/images/fitzone-logo.png" alt="FitZone logo" class="w-75 mb-2 mt-3">
-                    </a>
-                </div>
+    <?php
+    session_start();
+    require_once "../includes/db.php";
 
-                <!-- Left-aligned links -->
-                <ul class="nav flex-column mt-4">
-                    <li class="nav-item mb-2">
-                        <a href="#" class="nav-link text-white custom-sidebar-link" data-section="dashboard">Dashboard</a>
-                    </li>
-                    <li class="nav-item mb-2">
-                        <a href="#" class="nav-link text-white custom-sidebar-link" data-section="user_management">User Management</a>
-                    </li>
-                    <?php
-                    if (true) {
-                    ?>
+    if (isset($_SESSION["u"])) {
+        $data = $_SESSION["u"];
 
-                        <li class="nav-item mb-2">
-                            <a href="#" class="nav-link text-white custom-sidebar-link" data-section="staff_management">Staff Management</a>
-                        </li>
-                    <?php
-                    }
-                    ?>
+        if ($data["role"] == "admin" || $data["role"] == "staff") {
+            $user_id = $data["user_id"];
+    ?>
 
-                    <li class="nav-item mb-2">
-                        <a href="#" class="nav-link text-white custom-sidebar-link" data-section="classes">Class Management</a>
-                    </li>
-                    <li class="nav-item mb-2">
-                        <a href="#" class="nav-link text-white custom-sidebar-link" data-section="inquiries">Inquiry Managemnt</a>
-                    </li>
-                </ul>
-            </div>
+            <div class="d-flex" id="custom-wrapper">
+                <nav id="custom-sidebar" class="custom-sidebar bg-dark text-white d-flex flex-column">
+                    <div class="p-3 flex-grow-1">
+                        <!-- Centered logo and heading -->
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <a href="/fitzone">
+                                <img src="../assets/images/fitzone-logo.png" alt="FitZone logo" class="w-75 mb-2 mt-3">
+                            </a>
+                        </div>
 
-            <!-- Logout Button at the Bottom -->
-            <div class="mt-auto p-3">
-                <a href="#" class="btn btn-danger w-100" data-section="logout">Logout</a>
-            </div>
-        </nav>
+                        <!-- Left-aligned links -->
+                        <ul class="nav flex-column mt-4">
+                            <li class="nav-item mb-2">
+                                <a href="#" class="nav-link text-white custom-sidebar-link" data-section="dashboard">Dashboard</a>
+                            </li>
+                            <li class="nav-item mb-2">
+                                <a href="#" class="nav-link text-white custom-sidebar-link" data-section="user_management">User Management</a>
+                            </li>
+                            <?php
+                            if ($data["role"] == "admin") {
+                            ?>
+
+                                <li class="nav-item mb-2">
+                                    <a href="#" class="nav-link text-white custom-sidebar-link" data-section="staff_management">Staff Management</a>
+                                </li>
+                            <?php
+                            }
+                            ?>
+
+                            <li class="nav-item mb-2">
+                                <a href="#" class="nav-link text-white custom-sidebar-link" data-section="classes">Class Management</a>
+                            </li>
+                            <li class="nav-item mb-2">
+                                <a href="#" class="nav-link text-white custom-sidebar-link" data-section="inquiries">Inquiry Managemnt</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Logout Button at the Bottom -->
+                    <div class="mt-auto p-3">
+                        <button class="btn btn-danger w-100" data-section="logout" onclick="logout();">Logout</button>
+                    </div>
+                </nav>
 
 
 
-        <!-- Main Content -->
-        <div id="custom-content" class="flex-grow-1 p-4">
-            <!-- Toggle Button -->
-            <button class="btn btn-warning mb-3 d-md-none" id="custom-toggle-btn">☰ Menu</button>
+                <!-- Main Content -->
+                <div id="custom-content" class="flex-grow-1 p-4">
+                    <!-- Toggle Button -->
+                    <button class="btn btn-warning mb-3 d-md-none" id="custom-toggle-btn">☰ Menu</button>
 
-            <!-- Section Content -->
-            <div id="dashboard" class="custom-section">
-                <h2 class="profile-section-header fw-bold">Dashboard</h2>
-                <div class=" mt-4">
-                    <div class="row">
-                        <div class="col-md-4 col-12 mb-4">
-                            <div class="rounded-box rounded-3" style="background-color: #FFC017;">
-                                <div class="d-flex align-items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-                                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
-                                    </svg>
-                                    <div class="d-flex flex-column align-items-start text-start ms-3">
-                                        <h5 class="profile-section-header fw-bold mb-1">Sahan Game</h5>
-                                        <span class="text-white small profile-section-header">Admin</span>
+                    <!-- Section Content -->
+                    <div id="dashboard" class="custom-section">
+                        <h2 class="profile-section-header fw-bold">Dashboard</h2>
+                        <div class=" mt-4">
+                            <div class="row">
+                                <div class="col-md-4 col-12 mb-4">
+                                    <div class="rounded-box rounded-3" style="background-color: #FFC017;">
+                                        <div class="d-flex align-items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                                            </svg>
+                                            <div class="d-flex flex-column align-items-start text-start ms-3">
+                                                <h5 class="profile-section-header fw-bold mb-1"><?php echo $data["first_name"] . " " . $data["last_name"]; ?></h5>
+                                                <span class="text-white small profile-section-header"><?php echo $data["role"] == "admin" ? "Admin" : "Staff"; ?></span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12 mb-4">
+                                    <div class="rounded-box rounded-3" style="background-color: #1A2F45;">
+                                        <div class="d-flex align-items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+                                                <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
+                                            </svg>
+                                            <div class="d-flex flex-column align-items-start text-start ms-3">
+                                                <?php
+                                                $total_user_rs = Database::search("SELECT * FROM `user` WHERE user.role = 'customer'");
+                                                $user_count = $total_user_rs->num_rows;
+
+                                                if ($user_count > 0) {
+                                                    $formatted_count = str_pad($user_count, 3, '0', STR_PAD_LEFT);
+                                                ?>
+                                                    <h5 class="profile-section-header fw-bold mb-1"><?php echo $formatted_count; ?></h5>
+                                                <?php
+                                                } else {
+                                                ?>
+                                                    <h5 class="profile-section-header fw-bold mb-1">No user yet.</h5>
+                                                <?php
+                                                }
+                                                ?>
+                                                <span class="text-white small profile-section-header">Total Users</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12 mb-4">
+                                    <div class="rounded-box rounded-3" style="background-color: #8B1E3F;">
+                                        <div class="d-flex align-items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16">
+                                                <path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z" />
+                                                <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z" />
+                                            </svg>
+                                            <div class="d-flex flex-column align-items-start text-start ms-3">
+                                                <?php
+                                                $total_class_rs = Database::search("SELECT * FROM `classes`");
+
+                                                if ($total_class_rs->num_rows > 0) {
+                                                    $class_count = $total_class_rs->num_rows;
+
+                                                    $formatted_cls_count = str_pad($class_count, 2, '0', STR_PAD_LEFT);
+
+                                                ?>
+                                                    <h5 class="profile-section-header fw-bold mb-1"><?php echo $formatted_cls_count; ?></h5>
+                                                <?php
+
+                                                } else {
+                                                ?>
+
+                                                    <h5 class="profile-section-header fw-bold mb-1">No class yet</h5>
+
+                                                <?php
+                                                }
+                                                ?>
+                                                <span class="text-white small profile-section-header">Total Classes</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Donut Chart Card -->
+                                <div class="col-md-4 col-12 mb-4">
+                                    <div class="card dashboard-card p-3 h-100">
+                                        <div id="donut-chart" class="chart-canvas-container"></div>
+                                        <div class="text-center mt-3">
+                                            <h4 class="personal-details-title">Membership Distribution</h4>
+                                        </div>
                                     </div>
                                 </div>
 
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-12 mb-4">
-                            <div class="rounded-box rounded-3" style="background-color: #1A2F45;">
-                                <div class="d-flex align-items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
-                                        <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
-                                    </svg>
-                                    <div class="d-flex flex-column align-items-start text-start ms-3">
-                                        <h5 class="profile-section-header fw-bold mb-1">234</h5>
-                                        <span class="text-white small profile-section-header">Total Users</span>
+                                <!-- Bar Chart Card -->
+                                <div class="col-md-8 col-12 mb-4">
+                                    <div class="card dashboard-card p-3 h-100">
+                                        <canvas id="attendanceBarChart" class="chart-canvas-container"></canvas>
+                                        <div class="text-center mt-3">
+                                            <h4 class="personal-details-title">Class Attendance by Type</h4>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
-                        <div class="col-md-4 col-12 mb-4">
-                            <div class="rounded-box rounded-3" style="background-color: #8B1E3F;">
-                                <div class="d-flex align-items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16">
-                                        <path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z" />
-                                        <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z" />
-                                    </svg>
-                                    <div class="d-flex flex-column align-items-start text-start ms-3">
-                                        <h5 class="profile-section-header fw-bold mb-1">20</h5>
-                                        <span class="text-white small profile-section-header">Total Classes</span>
+                    </div>
+
+                    <div id="user_management" class="custom-section d-none">
+                        <h2 class="profile-section-header fw-bold ">User Management</h2>
+
+                        <!-- If and admin. Block/Unblock users -->
+                        <?php
+                        if ($data["role"] == "admin") {
+                        ?>
+
+                            <!-- User Cards Container -->
+                            <div id="userCards" class="row g-3 mb-5 mt-4">
+                                <!-- Example User Card -->
+                                <?php
+                                $user_rs = Database::search("SELECT * FROM user WHERE user.role = 'customer' AND (user.user_status_id = 2 OR user.user_status_id = 3)");
+
+                                if ($user_rs->num_rows > 0) {
+                                    while ($user_data = $user_rs->fetch_assoc()) {
+                                ?>
+                                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
+                                            <div class="card h-100 shadow-sm p-2">
+                                                <div class="card-body p-2 text-center">
+                                                    <h6 class="fw-bold mb-1"><?php echo $user_data["first_name"] . " " . $user_data["last_name"] ?></h6>
+                                                    <small class="d-block text-muted"><?php echo $user_data["user_id"]; ?></small>
+                                                    <small class="d-block text-muted"><?php echo $user_data["email"]; ?></small>
+                                                    <small class="d-block text-muted"><?php echo $user_data["contact"]; ?></small>
+                                                    <button class="btn btn-outline-danger btn-sm mt-2"
+                                                        onclick="blockOrUnblockUser(<?php echo $user_data['user_id']; ?>, this)">
+                                                        <?php echo $user_data["user_status_id"] == 3 ? "Unblock" : "Block"; ?>
+                                                    </button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                <?php
+                                    }
+                                }
+                                ?>
+                            </div>
+                        <?php
+                        }
+                        ?>
+
+                        <!-- If a staff memebr - User membership requests - to accept or deny -->
+
+                        <?php
+                        if ($data["role"] == "staff") {
+                        ?>
+                            <p style="font-family: Rajdhani, sans-serif; ">Membership requests to accept or deny.</p>
+
+                            <!-- User Cards Container -->
+                            <div id="userCards" class="row g-3">
+                                <?php
+                                $memb_req_rs = Database::search("SELECT * FROM membership_request INNER JOIN user ON membership_request.user_user_id = user.user_id INNER JOIN membership ON membership_request.membership_id = membership.id WHERE membership_request.`status` = 'pending'");
+
+                                if ($memb_req_rs->num_rows > 0) {
+                                    while ($memb_req_data = $memb_req_rs->fetch_assoc()) {
+                                ?>
+                                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card mb-3">
+                                            <div class="card h-100 shadow-sm p-2">
+                                                <div class="card-body p-2 text-center">
+                                                    <h6 class="fw-bold mb-1"><?php echo $memb_req_data["first_name"] . " " . $memb_req_data["last_name"]; ?></h6>
+                                                    <small class="d-block text-muted"><?php echo $memb_req_data["name"] ?> Plan</small>
+                                                    <small class="d-block text-muted"><?php echo $memb_req_data["email"] ?></small>
+                                                    <small class="d-block text-muted"><?php echo $memb_req_data["contact"] ?></small>
+
+                                                    <button
+                                                        class="btn btn-warning btn-sm mt-3 w-100"
+                                                        onclick="showImageModal('/fitzone/<?php echo $memb_req_data['deposit_slip_url']; ?>')">
+                                                        View
+                                                    </button>
+
+                                                    <div class="d-flex flex-sm-row flex-column justify-content-between mt-1 gap-2">
+                                                        <button
+                                                            class="btn btn-success btn-sm flex-fill"
+                                                            onclick="handleMembershipAction('accept', <?php echo $memb_req_data['user_user_id']; ?>, <?php echo $memb_req_data['membership_id']; ?>)">
+                                                            Accept
+                                                        </button>
+
+                                                        <button
+                                                            class="btn btn-danger btn-sm flex-fill"
+                                                            onclick="handleMembershipAction('deny', <?php echo $memb_req_data['user_user_id']; ?>, <?php echo $memb_req_data['membership_id']; ?>)">
+                                                            Deny
+                                                        </button>
+                                                    </div>
+
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                <?php
+                                    }
+                                }
+                                ?>
+
+
+                            </div>
+                        <?php
+                        }
+                        ?>
+
+
+
+
+
+                    </div>
+
+
+
+                    <div id="staff_management" class="custom-section d-none">
+                        <h2 class="profile-section-header fw-bold mb-4">Staff Management</h2>
+
+                        <!-- User Cards Container -->
+                        <div id="userCards" class="row g-3 mt-3">
+                            <?php
+                            $staff_rs = Database::search("SELECT * FROM user WHERE user.role = 'staff' ");
+
+                            if ($staff_rs->num_rows > 0) {
+                                while ($staff_data = $staff_rs->fetch_assoc()) {
+                            ?>
+                                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
+                                        <div class="card h-100 shadow-sm p-2">
+                                            <div class="card-body p-2 text-center">
+                                                <h6 class="fw-bold mb-1"><?php echo $staff_data["first_name"] . " " . $staff_data["last_name"]; ?></h6>
+                                                <small class="d-block text-muted"><?php echo $staff_data["user_id"]; ?></small>
+                                                <small class="d-block text-muted"><?php echo $staff_data["email"]; ?></small>
+                                                <small class="d-block text-muted"><?php echo $staff_data["contact"]; ?></small>
+                                                <button class="btn btn-outline-danger btn-sm mt-2"
+                                                    onclick="blockOrUnblockUser(<?php echo $staff_data['user_id']; ?>, this)">
+                                                    <?php echo $staff_data["user_status_id"] == 3 ? "Unblock" : "Block"; ?>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
+                            <?php
+                                }
+                            }
+                            ?>
+
+                        </div>
+
+                    </div>
+
+                    <div id="classes" class="custom-section d-none">
+                        <div class="">
+                            <h2 class="profile-section-header fw-bold mb-">Class Management</h2>
+
+                            <p style="font-family: Rajdhani, sans-serif; ">Class requests to accept or deny.</p>
+
+                            <!-- User Cards Container -->
+                            <div id="userCards" class="row g-3">
+                                <?php
+                                $cls_req_rs = Database::search("SELECT * FROM class_request INNER JOIN user ON class_request.user_user_id = user.user_id INNER JOIN classes ON class_request.classes_class_id = classes.class_id WHERE class_request.`status` = 'pending'");
+
+                                if ($cls_req_rs->num_rows > 0) {
+                                    while ($cls_req_data = $cls_req_rs->fetch_assoc()) {
+                                ?>
+                                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card mb-3">
+                                            <div class="card h-100 shadow-sm p-2">
+                                                <div class="card-body p-2 text-center">
+                                                    <h6 class="fw-bold mb-1"><?php echo $cls_req_data["first_name"] . " " . $cls_req_data["last_name"]; ?></h6>
+                                                    <small class="d-block text-muted"><?php echo $cls_req_data["title"] ?></small>
+                                                    <small class="d-block text-muted"><?php echo $cls_req_data["email"] ?></small>
+                                                    <small class="d-block text-muted">Rs. <?php echo $cls_req_data["price"] ?></small>
+
+                                                    <button
+                                                        class="btn btn-warning btn-sm mt-3 w-100"
+                                                        onclick="showImageModal('/fitzone/<?php echo $cls_req_data['cls_fee_deposit_slip_url']; ?>')">
+                                                        View
+                                                    </button>
+
+
+                                                    <div class="d-flex flex-column flex-sm-row justify-content-center gap-2 mt-2">
+                                                        <button class="btn btn-success btn-sm flex-fill">Accept</button>
+                                                        <button class="btn btn-danger btn-sm flex-fill">Deny</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php
+                                    }
+                                } else {
+                                    ?>
+                                    <span class="alert alert-warning">No Data To Show.</span>
+                                <?php
+                                }
+                                ?>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div id="inquiries" class="custom-section d-none">
+                        <h2 class="mb-3 profile-section-header fw-bold">Manage Inquiries</h2>
+
+                        <!-- Unreplied Inquiries Section -->
+                        <h6 class="mt-4 personal-details-title">Unreplied Inquiries</h6>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover service-description">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">Date - Time</th>
+                                        <th scope="col">Membership Id</th>
+                                        <th scope="col">Message</th>
+                                        <th scope="col">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Sample row for an unanswered inquiry -->
+                                    <tr>
+                                        <td>2025/04/19 - 11:38:00</td>
+                                        <td>FIT02373</td>
+                                        <td>I paid but it doesn't reflect.</td>
+                                        <td>
+                                            <button class="btn btn-warning">Reply</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2025/04/17 - 09:15:00</td>
+                                        <td>FIT02375</td>
+                                        <td>My membership renewal was unsuccessful.</td>
+                                        <td>
+                                            <button class="btn btn-warning">Reply</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Replied Inquiries Section -->
+                        <h6 class="mt-4 personal-details-title">Replied Inquiries</h6>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover service-description">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">Date - Time</th>
+                                        <th scope="col">Membership Id</th>
+                                        <th scope="col">Message</th>
+                                        <th scope="col">Reply Message</th>
+                                        <th scope="col">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Sample row for a replied inquiry -->
+                                    <tr>
+                                        <td>2025/04/18 - 14:20:00</td>
+                                        <td>FIT02374</td>
+                                        <td>I am unable to log in.</td>
+                                        <td>We’ve reset your password. Please check your email.</td>
+                                        <td>
+                                            <button class="btn btn-success" disabled>Replied</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2025/04/16 - 16:30:00</td>
+                                        <td>FIT02376</td>
+                                        <td>My payment isn't showing up.</td>
+                                        <td>Your payment has been processed. Please check again.</td>
+                                        <td>
+                                            <button class="btn btn-success" disabled>Replied</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Image Modal -->
+                    <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Deposit Slip</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <img id="modalImage" src="" alt="Deposit Slip" class="img-fluid rounded" />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <!-- Donut Chart Card -->
-                        <div class="col-md-4 col-12 mb-4">
-                            <div class="card dashboard-card p-3 h-100">
-                                <div id="donut-chart" class="chart-canvas-container"></div>
-                                <div class="text-center mt-3">
-                                    <h4 class="personal-details-title">Membership Distribution</h4>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Bar Chart Card -->
-                        <div class="col-md-8 col-12 mb-4">
-                            <div class="card dashboard-card p-3 h-100">
-                                <canvas id="attendanceBarChart" class="chart-canvas-container"></canvas>
-                                <div class="text-center mt-3">
-                                    <h4 class="personal-details-title">Class Attendance by Type</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div id="user_management" class="custom-section d-none">
-                <h2 class="profile-section-header fw-bold mb-">User Management</h2>
-
-                <!-- Search Bar -->
-                <div class="col-12 mb-4">
-                    <div class="input-group w-100">
-                        <input
-                            type="text"
-                            class="form-control bg-white border"
-                            placeholder="Search user..."
-                            aria-label="Search"
-                            aria-describedby="search-addon">
-                        <button class="btn btn-outline-secondary" type="button" id="search-addon">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-
                 <?php
-                if (false) {
+            } else {
+                // Access denied for logged in users with wrong role
                 ?>
-
-                    <!-- User Cards Container -->
-                    <div id="userCards" class="row g-3">
-                        <!-- Example User Card -->
-                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
-                            <div class="card h-100 shadow-sm p-2">
-                                <div class="card-body p-2 text-center">
-                                    <h6 class="fw-bold mb-1">John Doe</h6>
-                                    <small class="d-block text-muted">M12345</small>
-                                    <small class="d-block text-muted">john@example.com</small>
-                                    <small class="d-block text-muted">+1234567890</small>
-                                    <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
-                            <div class="card h-100 shadow-sm p-2">
-                                <div class="card-body p-2 text-center">
-                                    <h6 class="fw-bold mb-1">John Doe</h6>
-                                    <small class="d-block text-muted">M12345</small>
-                                    <small class="d-block text-muted">john@example.com</small>
-                                    <small class="d-block text-muted">+1234567890</small>
-                                    <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
-                            <div class="card h-100 shadow-sm p-2">
-                                <div class="card-body p-2 text-center">
-                                    <h6 class="fw-bold mb-1">John Doe</h6>
-                                    <small class="d-block text-muted">M12345</small>
-                                    <small class="d-block text-muted">john@example.com</small>
-                                    <small class="d-block text-muted">+1234567890</small>
-                                    <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
-                            <div class="card h-100 shadow-sm p-2">
-                                <div class="card-body p-2 text-center">
-                                    <h6 class="fw-bold mb-1">John Doe</h6>
-                                    <small class="d-block text-muted">M12345</small>
-                                    <small class="d-block text-muted">john@example.com</small>
-                                    <small class="d-block text-muted">+1234567890</small>
-                                    <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
-                            <div class="card h-100 shadow-sm p-2">
-                                <div class="card-body p-2 text-center">
-                                    <h6 class="fw-bold mb-1">John Doe</h6>
-                                    <small class="d-block text-muted">M12345</small>
-                                    <small class="d-block text-muted">john@example.com</small>
-                                    <small class="d-block text-muted">+1234567890</small>
-                                    <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
-                            <div class="card h-100 shadow-sm p-2">
-                                <div class="card-body p-2 text-center">
-                                    <h6 class="fw-bold mb-1">John Doe</h6>
-                                    <small class="d-block text-muted">M12345</small>
-                                    <small class="d-block text-muted">john@example.com</small>
-                                    <small class="d-block text-muted">+1234567890</small>
-                                    <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
-                                </div>
-                            </div>
+                    <div class="d-flex align-items-center justify-content-center" style="height: 100vh; background-color: #f8f9fa;">
+                        <div class="text-center bg-white p-5 rounded shadow-lg" style="max-width: 500px; width: 100%;">
+                            <h2 class="text-danger mb-4">Access Denied</h2>
+                            <p class="lead text-muted">You do not have permission to access this page.</p>
+                            <a href="/fitzone/pages/login.php" class="btn btn-primary">Go to Login</a>
                         </div>
                     </div>
                 <?php
-                }
+            }
+        } else {
+            // Access denied for not logged in users
                 ?>
-                <p style="font-family: Rajdhani, sans-serif; ">Membership requests to accept or deny.</p>
-
-                <!-- User Cards Container -->
-                <div id="userCards" class="row g-3">
-                    <!-- Example User Card -->
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card mb-3">
-                        <div class="card h-100 shadow-sm p-2">
-                            <div class="card-body p-2 text-center">
-                                <h6 class="fw-bold mb-1">John Doe</h6>
-                                <small class="d-block text-muted">Basic Plan</small>
-                                <small class="d-block text-muted">john@example.com</small>
-                                <small class="d-block text-muted">+1234567890</small>
-
-                                <button class="btn btn-warning btn-sm mt-3 w-100">View</button>
-
-                                <div class="d-flex flex-column flex-sm-row justify-content-center gap-2 mt-2">
-                                    <button class="btn btn-success btn-sm flex-fill">Accept</button>
-                                    <button class="btn btn-danger btn-sm flex-fill">Deny</button>
-                                </div>
-                            </div>
-                        </div>
+                <div class="d-flex align-items-center justify-content-center" style="height: 100vh; background-color: #f8f9fa;">
+                    <div class="text-center bg-white p-5 rounded shadow-lg" style="max-width: 500px; width: 100%;">
+                        <h2 class="text-danger mb-4">Access Denied</h2>
+                        <p class="lead text-muted">You need to log in to access your profile. Please log in to continue.</p>
+                        <a href="/fitzone/pages/login.php" class="btn btn-primary">Go to Login</a>
                     </div>
                 </div>
-            </div>
-
-
-            <div id="staff_management" class="custom-section d-none">
-                <h2 class="profile-section-header fw-bold mb-4">Staff Management</h2>
-
-                <!-- Search Bar -->
-                <div class="col-12 mb-4">
-                    <div class="input-group w-100">
-                        <input
-                            type="text"
-                            class="form-control bg-white border"
-                            placeholder="Search staff..."
-                            aria-label="Search"
-                            aria-describedby="search-addon">
-                        <button class="btn btn-outline-secondary" type="button" id="search-addon">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-
-
-                <!-- User Cards Container -->
-                <div id="userCards" class="row g-3">
-                    <!-- Example User Card -->
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
-                        <div class="card h-100 shadow-sm p-2">
-                            <div class="card-body p-2 text-center">
-                                <h6 class="fw-bold mb-1">John Doe</h6>
-                                <small class="d-block text-muted">M12345</small>
-                                <small class="d-block text-muted">john@example.com</small>
-                                <small class="d-block text-muted">+1234567890</small>
-                                <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
-                        <div class="card h-100 shadow-sm p-2">
-                            <div class="card-body p-2 text-center">
-                                <h6 class="fw-bold mb-1">John Doe</h6>
-                                <small class="d-block text-muted">M12345</small>
-                                <small class="d-block text-muted">john@example.com</small>
-                                <small class="d-block text-muted">+1234567890</small>
-                                <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
-                        <div class="card h-100 shadow-sm p-2">
-                            <div class="card-body p-2 text-center">
-                                <h6 class="fw-bold mb-1">John Doe</h6>
-                                <small class="d-block text-muted">M12345</small>
-                                <small class="d-block text-muted">john@example.com</small>
-                                <small class="d-block text-muted">+1234567890</small>
-                                <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
-                        <div class="card h-100 shadow-sm p-2">
-                            <div class="card-body p-2 text-center">
-                                <h6 class="fw-bold mb-1">John Doe</h6>
-                                <small class="d-block text-muted">M12345</small>
-                                <small class="d-block text-muted">john@example.com</small>
-                                <small class="d-block text-muted">+1234567890</small>
-                                <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
-                        <div class="card h-100 shadow-sm p-2">
-                            <div class="card-body p-2 text-center">
-                                <h6 class="fw-bold mb-1">John Doe</h6>
-                                <small class="d-block text-muted">M12345</small>
-                                <small class="d-block text-muted">john@example.com</small>
-                                <small class="d-block text-muted">+1234567890</small>
-                                <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
-                        <div class="card h-100 shadow-sm p-2">
-                            <div class="card-body p-2 text-center">
-                                <h6 class="fw-bold mb-1">John Doe</h6>
-                                <small class="d-block text-muted">M12345</small>
-                                <small class="d-block text-muted">john@example.com</small>
-                                <small class="d-block text-muted">+1234567890</small>
-                                <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div id="classes" class="custom-section d-none">
-                <div class="">
-                    <h2 class="profile-section-header fw-bold mb-">Class Management</h2>
-
-                    <p style="font-family: Rajdhani, sans-serif; ">Class requests to accept or deny.</p>
-
-                    <!-- User Cards Container -->
-                    <div id="userCards" class="row g-3">
-                        <!-- Example User Card -->
-                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card mb-3">
-                            <div class="card h-100 shadow-sm p-2">
-                                <div class="card-body p-2 text-center">
-                                    <h6 class="fw-bold mb-1">John Doe</h6>
-                                    <small class="d-block text-muted">Yoga Class</small>
-                                    <small class="d-block text-muted">john@example.com</small>
-                                    <small class="d-block text-muted">Rs. 1500</small>
-
-                                    <button class="btn btn-warning btn-sm mt-3 w-100">View</button>
-
-                                    <div class="d-flex flex-column flex-sm-row justify-content-center gap-2 mt-2">
-                                        <button class="btn btn-success btn-sm flex-fill">Accept</button>
-                                        <button class="btn btn-danger btn-sm flex-fill">Deny</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-
-            </div>
-
-
-            <div id="inquiries" class="custom-section d-none">
-                <h2 class="mb-3 profile-section-header fw-bold">Manage Inquiries</h2>
-
-                <!-- Unreplied Inquiries Section -->
-                <h6 class="mt-4 personal-details-title">Unreplied Inquiries</h6>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover service-description">
-                        <thead class="table-light">
-                            <tr>
-                                <th scope="col">Date - Time</th>
-                                <th scope="col">Membership Id</th>
-                                <th scope="col">Message</th>
-                                <th scope="col">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Sample row for an unanswered inquiry -->
-                            <tr>
-                                <td>2025/04/19 - 11:38:00</td>
-                                <td>FIT02373</td>
-                                <td>I paid but it doesn't reflect.</td>
-                                <td>
-                                    <button class="btn btn-warning">Reply</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2025/04/17 - 09:15:00</td>
-                                <td>FIT02375</td>
-                                <td>My membership renewal was unsuccessful.</td>
-                                <td>
-                                    <button class="btn btn-warning">Reply</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Replied Inquiries Section -->
-                <h6 class="mt-4 personal-details-title">Replied Inquiries</h6>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover service-description">
-                        <thead class="table-light">
-                            <tr>
-                                <th scope="col">Date - Time</th>
-                                <th scope="col">Membership Id</th>
-                                <th scope="col">Message</th>
-                                <th scope="col">Reply Message</th>
-                                <th scope="col">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Sample row for a replied inquiry -->
-                            <tr>
-                                <td>2025/04/18 - 14:20:00</td>
-                                <td>FIT02374</td>
-                                <td>I am unable to log in.</td>
-                                <td>We’ve reset your password. Please check your email.</td>
-                                <td>
-                                    <button class="btn btn-success" disabled>Replied</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2025/04/16 - 16:30:00</td>
-                                <td>FIT02376</td>
-                                <td>My payment isn't showing up.</td>
-                                <td>Your payment has been processed. Please check again.</td>
-                                <td>
-                                    <button class="btn btn-success" disabled>Replied</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
+            <?php
+        }
+            ?>
 
             <!-- Bootstrap Bundle -->
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -648,6 +682,14 @@
                         }
                     }
                 });
+
+                function showImageModal(imageUrl) {
+                    const modalImg = document.getElementById("modalImage");
+                    modalImg.src = imageUrl; // Set the image src
+
+                    const modal = new bootstrap.Modal(document.getElementById('imageModal'));
+                    modal.show(); // Show the modal
+                }
             </script>
 </body>
 

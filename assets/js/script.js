@@ -152,6 +152,9 @@ function signIn(event) {
                 window.location.href = "/fitzone/admin/dashboard.php"; // Redirect to admin dashboard for staff/admin
             } else if (t === "Invalid username or password") {
                 alert(t);
+            } else {
+                console.log(t);
+                alert(t);
             }
         }
     }
@@ -163,51 +166,56 @@ function signIn(event) {
 
 // Login page: End
 
-// Profile Page: Start
+// Profile page: Start
 
-const toggleBtn = document.getElementById("custom-toggle-btn");
-const sidebar = document.getElementById("custom-sidebar");
-const wrapper = document.getElementById("custom-wrapper");
-const links = document.querySelectorAll(".custom-sidebar-link");
-const sections = document.querySelectorAll(".custom-section");
+document.addEventListener("DOMContentLoaded", () => {
+    const toggleBtn = document.getElementById("custom-toggle-btn");
+    const sidebar = document.getElementById("custom-sidebar");
+    const wrapper = document.getElementById("custom-wrapper");
+    const links = document.querySelectorAll(".custom-sidebar-link");
+    const sections = document.querySelectorAll(".custom-section");
 
-// Open sidebar
-toggleBtn.addEventListener("click", () => {
-    sidebar.classList.toggle("show");
-    wrapper.classList.toggle("overlay");
-});
+    if (!toggleBtn || !sidebar || !wrapper) return; // Safety check
 
-// Close sidebar if clicking outside of it
-wrapper.addEventListener("click", (e) => {
-    if (wrapper.classList.contains("overlay") && !sidebar.contains(e.target) && e.target !== toggleBtn) {
-        sidebar.classList.remove("show");
-        wrapper.classList.remove("overlay");
-    }
-});
+    // Open sidebar
+    toggleBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("show");
+        wrapper.classList.toggle("overlay");
+    });
 
-// Section switching logic
-links.forEach(link => {
-    link.addEventListener("click", (e) => {
-        e.preventDefault();
-
-        const targetId = link.getAttribute("data-section");
-
-        // Hide all sections
-        sections.forEach(section => section.classList.add("d-none"));
-
-        // Show selected section
-        const targetSection = document.getElementById(targetId);
-        if (targetSection) {
-            targetSection.classList.remove("d-none");
-        }
-
-        // Collapse sidebar on small screens
-        if (window.innerWidth < 768) {
+    // Close sidebar if clicking outside of it
+    wrapper.addEventListener("click", (e) => {
+        if (wrapper.classList.contains("overlay") && !sidebar.contains(e.target) && e.target !== toggleBtn) {
             sidebar.classList.remove("show");
             wrapper.classList.remove("overlay");
         }
     });
+
+    // Section switching logic
+    links.forEach(link => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+
+            const targetId = link.getAttribute("data-section");
+
+            // Hide all sections
+            sections.forEach(section => section.classList.add("d-none"));
+
+            // Show selected section
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                targetSection.classList.remove("d-none");
+            }
+
+            // Collapse sidebar on small screens
+            if (window.innerWidth < 768) {
+                sidebar.classList.remove("show");
+                wrapper.classList.remove("overlay");
+            }
+        });
+    });
 });
+
 
 function activateMembership(user_id) {
 
@@ -361,7 +369,7 @@ function registerForClass(user_id) {
     }
 }
 
-function sendInquiry(user_id){
+function sendInquiry(user_id) {
     const inquiryMessage = document.getElementById("inquiryMessage").value;
 
     const form = new FormData();
@@ -388,7 +396,7 @@ function sendInquiry(user_id){
 }
 
 
-function logout(){
+function logout() {
     var r = new XMLHttpRequest();
 
     r.onreadystatechange = function () {
@@ -405,3 +413,52 @@ function logout(){
 }
 
 // Profile Page: End
+
+// Admin dashboard: Start
+
+function blockOrUnblockUser(user_id, btnElement) {
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            const res = xhr.responseText.trim();
+
+            if (res === "2" || res === "3") {
+                btnElement.textContent = (res === "3") ? "Unblock" : "Block";
+            } else {
+                alert("Something went wrong.");
+                console.log(res);
+            }
+        }
+    };
+
+    xhr.open("GET", "/fitzone/process/blockOrUnblockUserProccess.php?user_id=" + user_id, true);
+    xhr.send();
+}
+
+function handleMembershipAction(action, userId, membId) {
+    const confirmMsg = `Are you sure you want to ${action} this membership request?`;
+    if (!confirm(confirmMsg)) return;
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/fitzone/process/membershipActionProcess.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            const res = xhr.responseText.trim();
+            if (res === "success") {
+                alert(`Membership updated successfully!`);
+                location.reload(); 
+            } else {
+                alert("Something went wrong");
+                console.log(res);
+            }
+        }
+    };
+
+    xhr.send(`action=${action}&user_id=${userId}&memb_id=${membId}`);
+}
+
+
+// Admin dashboard: End
