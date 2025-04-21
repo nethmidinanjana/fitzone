@@ -128,22 +128,6 @@ function verifyCode() {
 }
 
 // Sign In/Log In
-document.getElementById("togglePassword").addEventListener("click", function () {
-    const passwordField = document.getElementById("passwordSignIn");
-    const eyeIcon = document.getElementById("eyeIcon");
-
-    // Toggle password visibility
-    if (passwordField.type === "password") {
-        passwordField.type = "text";
-        eyeIcon.classList.remove("fa-eye-slash");
-        eyeIcon.classList.add("fa-eye");
-    } else {
-        passwordField.type = "password";
-        eyeIcon.classList.remove("fa-eye");
-        eyeIcon.classList.add("fa-eye-slash");
-    }
-});
-
 
 function signIn(event) {
     event.preventDefault();
@@ -167,7 +151,7 @@ function signIn(event) {
             } else if (t === "staff" || t === "admin") {
                 window.location.href = "/fitzone/admin/dashboard.php"; // Redirect to admin dashboard for staff/admin
             } else if (t === "Invalid username or password") {
-                alert(t); 
+                alert(t);
             }
         }
     }
@@ -224,5 +208,200 @@ links.forEach(link => {
         }
     });
 });
+
+function activateMembership(user_id) {
+
+    const depositSlip = document.getElementById("depositSlip");
+    const membershipPlan = document.getElementById("membershipPlan");
+
+    const file = depositSlip.files[0];
+
+    if (!file) {
+        alert("Please upload a deposit slip.");
+        return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+        alert("Only image files are allowed.");
+        return;
+    }
+
+    if (!membershipPlan.value) {
+        alert("Please select a membership plan.");
+        return;
+    }
+
+    var form = new FormData();
+    form.append("depositSlip", file);
+    form.append("membershipPlan", membershipPlan.value);
+    form.append("user_id", user_id);
+
+    var r = new XMLHttpRequest();
+
+    r.onreadystatechange = function () {
+        if (r.readyState == 4) {
+            var t = r.responseText.trim();
+            if (t == "success") {
+                window.location.reload();
+            } else {
+                console.log(t);
+                alert(t);
+            }
+        }
+    };
+
+    r.open("POST", "/fitzone/process/activateMembership.php", true);
+    r.send(form);
+}
+
+function UpdateProfile(user_id) {
+
+
+    const gender = document.getElementById("gender");
+    const birthday = document.getElementById("birthday");
+    const weight = document.getElementById("weight");
+    const height = document.getElementById("height");
+
+    console.log(gender);
+    console.log(birthday);
+    console.log(weight);
+    console.log(height);
+
+
+    // Weight and height validations (optional)
+    if (!weight.value || isNaN(weight.value) || weight.value <= 0) {
+        alert("Please enter a valid weight.");
+        return;
+    }
+
+    if (!height.value || isNaN(height.value) || height.value <= 0) {
+        alert("Please enter a valid height.");
+        return;
+    }
+
+    var form = new FormData();
+
+    // Only send gender if it's not disabled
+    if (!gender.disabled && gender.value) {
+        form.append("gender", gender.value);
+    }
+
+    // Only send birthday if it's not disabled
+    if (!birthday.disabled && birthday.value) {
+        form.append("birthday", birthday.value);
+    }
+
+    form.append("weight", weight.value);
+    form.append("height", height.value);
+    form.append("user_id", user_id);
+
+    var r = new XMLHttpRequest();
+
+    r.onreadystatechange = function () {
+        if (r.readyState == 4) {
+            var t = r.responseText.trim();
+            if (t == "success") {
+                window.location.reload();
+            } else {
+                console.log(t);
+                alert(t);
+            }
+        }
+    };
+
+    r.open("POST", "/fitzone/process/updateProfile.php", true); // Make sure path is correct
+    r.send(form);
+}
+
+function registerForClass(user_id) {
+
+    const depositSlip = document.getElementById("classFeeDepositSlip");
+    const selectedClass = document.querySelector('input[name="selectedClass"]:checked');
+
+    const file = depositSlip.files[0];
+
+    if (!file) {
+        alert("Please upload a deposit slip.");
+        return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+        alert("Only image files are allowed.");
+        return;
+    }
+
+    if (!selectedClass) {
+        alert("Please select a class.");
+        return;
+    } else {
+        const classId = selectedClass.value;
+
+        const form = new FormData();
+        form.append("depositSlip", file);
+        form.append("classId", classId);
+        form.append("user_id", user_id);
+
+        const r = new XMLHttpRequest();
+
+        r.onreadystatechange = function () {
+            if (r.readyState === 4) {
+                const t = r.responseText.trim();
+                if (t === "success") {
+                    alert("Class registration request submitted!");
+                    window.location.reload();
+                } else {
+                    console.log(t);
+                    alert(t);
+                }
+            }
+        };
+
+        r.open("POST", "/fitzone/process/registerClass.php", true);
+        r.send(form);
+    }
+}
+
+function sendInquiry(user_id){
+    const inquiryMessage = document.getElementById("inquiryMessage").value;
+
+    const form = new FormData();
+    form.append("inquiryMessage", inquiryMessage);
+    form.append("user_id", user_id);
+
+    const r = new XMLHttpRequest();
+
+    r.onreadystatechange = function () {
+        if (r.readyState === 4) {
+            const t = r.responseText.trim();
+            if (t === "success") {
+                alert("Inquiry submitted!");
+                window.location.reload();
+            } else {
+                console.log(t);
+                alert(t);
+            }
+        }
+    };
+
+    r.open("POST", "/fitzone/process/sendInquiry.php", true);
+    r.send(form);
+}
+
+
+function logout(){
+    var r = new XMLHttpRequest();
+
+    r.onreadystatechange = function () {
+        if (r.readyState == 4) {
+            var t = r.responseText;
+            if (t == "success") {
+                window.location.reload();
+            }
+        }
+    }
+
+    r.open("GET", "/fitzone/process/logOutProccess.php", true);
+    r.send();
+}
 
 // Profile Page: End

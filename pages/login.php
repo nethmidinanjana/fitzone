@@ -247,6 +247,22 @@
                 icon.classList.add('fa-eye-slash');
             }
         });
+
+        document.getElementById("togglePassword").addEventListener("click", function() {
+            const passwordField = document.getElementById("passwordSignIn");
+            const eyeIcon = document.getElementById("eyeIcon");
+
+            // Toggle password visibility
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                eyeIcon.classList.remove("fa-eye-slash");
+                eyeIcon.classList.add("fa-eye");
+            } else {
+                passwordField.type = "password";
+                eyeIcon.classList.remove("fa-eye");
+                eyeIcon.classList.add("fa-eye-slash");
+            }
+        });
     </script>
 
 </body>

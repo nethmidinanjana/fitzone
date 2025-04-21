@@ -43,8 +43,12 @@
 
     session_start();
 
+    require_once "../includes/db.php";
+
     if (isset($_SESSION["u"])) {
         $data = $_SESSION["u"];
+
+        $user_id = $data["user_id"];
 
     ?>
         <div class="d-flex" id="custom-wrapper">
@@ -76,7 +80,7 @@
 
                 <!-- Logout Button at the Bottom -->
                 <div class="mt-auto p-3">
-                    <a href="#" class="btn btn-danger w-100" data-section="logout">Logout</a>
+                    <button  class="btn btn-danger w-100" data-section="logout" onclick="logout();">Logout</button>
                 </div>
             </nav>
 
@@ -100,8 +104,30 @@
                                             <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
                                         </svg>
                                         <div class="d-flex flex-column align-items-start text-start ms-3">
-                                            <h5 class="profile-section-header fw-bold mb-1">Sahan Gamage</h5>
-                                            <span class="text-white small profile-section-header">Membership: Pending</span>
+                                            <h5 class="profile-section-header fw-bold mb-1"><?php echo $data["first_name"] . " " . $data["last_name"]; ?></h5>
+
+                                            <?php
+
+                                            // Run the query only once
+                                            $membership_rs = Database::search("SELECT * FROM customer_has_membership INNER JOIN membership ON customer_has_membership.memb_id = membership.id WHERE customer_has_membership.user_id =  '$user_id'");
+
+                                            // Prepare reusable data
+                                            $has_membership = false;
+
+                                            if ($membership_rs->num_rows > 0) {
+                                                $membership_data = $membership_rs->fetch_assoc();
+                                                $has_membership = true;
+                                                $membership_date = date("F j, Y", strtotime($membership_data["membership_date"]));
+                                            }
+                                            ?>
+
+
+                                            <?php if ($has_membership): ?>
+                                                <span class="text-white small profile-section-header">Member Since: <?= $membership_date ?></span>
+                                            <?php else: ?>
+                                                <span class="text-white small profile-section-header">Membership: Pending</span>
+                                            <?php endif; ?>
+
                                         </div>
                                     </div>
 
@@ -115,8 +141,18 @@
                                             <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM1 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8.96q.04-.245.04-.5C9 10.567 7.21 9 5 9c-2.086 0-3.8 1.398-3.984 3.181A1 1 0 0 1 1 12z" />
                                         </svg>
                                         <div class="d-flex flex-column align-items-start text-start ms-3">
-                                            <h5 class="profile-section-header fw-bold mb-1">FIT0234</h5>
-                                            <span class="text-white small profile-section-header">Membership ID</span>
+                                            <?php
+                                            if ($has_membership) {
+                                            ?>
+                                                <h5 class="profile-section-header fw-bold mb-1"><?php $membership_data["membership_id"] ?></h5>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <h5 class="profile-section-header fw-bold mb-1">Pending</h5>
+                                            <?php
+                                            }
+                                            ?>
+                                            <span class="text-white small profile-section-header">Membership Id</span>
                                         </div>
                                     </div>
                                 </div>
@@ -129,7 +165,17 @@
                                             <path d="M0 4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V6a2 2 0 0 1-2-2z" />
                                         </svg>
                                         <div class="d-flex flex-column align-items-start text-start ms-3">
-                                            <h5 class="profile-section-header fw-bold mb-1">Basic</h5>
+                                            <?php
+                                            if ($has_membership) {
+                                            ?>
+                                                <h5 class="profile-section-header fw-bold mb-1"><?php $membership_data["name"]; ?></h5>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <h5 class="profile-section-header fw-bold mb-1">Pending</h5>
+                                            <?php
+                                            }
+                                            ?>
                                             <span class="text-white small profile-section-header">Membership Plan</span>
                                         </div>
                                     </div>
@@ -140,137 +186,186 @@
 
                     <!-- If membership is pending -->
 
-                    <?php if (true) {
-                    ?>
-                        <div class="container">
-                            <h3 class="mb-3 personal-details-title">Activate Membership</h3>
-                            <hr />
+                    <?php if (!$has_membership) {
+                        $membership_request_rs = Database::search("SELECT * FROM membership_request WHERE membership_request.user_user_id = '" . $user_id . "'");
 
-                            <!-- Alert with Bank Details -->
-                            <div class="alert alert-danger" role="alert">
-                                <strong>Bank Deposit Instructions:</strong><br />
-                                Please deposit the payment to the following bank account and upload the deposit slip below:
-                                <ul class="mt-2 mb-0">
-                                    <li><strong>Bank:</strong> Bank of Ceylon</li>
-                                    <li><strong>Branch:</strong> Galle</li>
-                                    <li><strong>Account Name:</strong> FitZone Fitness Center</li>
-                                    <li><strong>Account Number:</strong> 1234567890</li>
-                                </ul>
+                        if ($membership_request_rs->num_rows > 0) {
+                            $memb_req_data = $membership_request_rs->fetch_assoc();
+
+                            if ($memb_req_data["status"] == "pending") {
+                    ?>
+                                <div class='alert alert-warning'>Your membership request is currently pending. Please wait for approval.</div>
+
+                            <?php
+                            }
+                        } else {
+                            ?>
+
+                            <div class="container">
+                                <h3 class="mb-3 personal-details-title">Activate Membership</h3>
+                                <hr />
+
+                                <!-- Alert with Bank Details -->
+                                <div class="alert alert-danger" role="alert">
+                                    <strong>Bank Deposit Instructions:</strong><br />
+                                    Please deposit the payment to the following bank account and upload the deposit slip below:
+                                    <ul class="mt-2 mb-0">
+                                        <li><strong>Bank:</strong> Bank of Ceylon</li>
+                                        <li><strong>Branch:</strong> Galle</li>
+                                        <li><strong>Account Name:</strong> FitZone Fitness Center</li>
+                                        <li><strong>Account Number:</strong> 1234567890</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Upload + Button Row -->
+                                <form class="mb-5">
+                                    <div class="row gy-3 align-items-center">
+
+                                        <!-- File input -->
+                                        <div class="col-md-6">
+                                            <label for="depositSlip" class="form-label personal-details-title">Upload Deposit Slip</label>
+                                            <input type="file" accept="image/*" class="form-control bg-white border text-black" id="depositSlip" required />
+                                        </div>
+
+                                        <!-- Membership Plan Selector -->
+                                        <div class="col-md-6">
+                                            <label for="membershipPlan" class="form-label personal-details-title">Select Membership Plan</label>
+                                            <select class="form-select bg-white border" id="membershipPlan" required>
+                                                <option value="" selected disabled>Choose a plan</option>
+                                                <option value="1">Basic</option>
+                                                <option value="2">Standard</option>
+                                                <option value="3">Premium</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Submit Button -->
+                                        <div class="col-12 text-md-end">
+                                            <button type="button" class="btn btn-warning w-100 w-md-auto" onclick="activateMembership(<?php echo $user_id; ?>)">
+                                                Activate Membership
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+
                             </div>
 
-                            <!-- Upload + Button Row -->
-                            <form class="mb-5">
-                                <div class="row gy-3 align-items-center">
-
-                                    <!-- File input -->
-                                    <div class="col-md-6">
-                                        <label for="depositSlip" class="form-label personal-details-title">Upload Deposit Slip</label>
-                                        <input type="file" class="form-control bg-white border" id="depositSlip" required />
-                                    </div>
-
-                                    <!-- Membership Plan Selector -->
-                                    <div class="col-md-6">
-                                        <label for="membershipPlan" class="form-label personal-details-title">Select Membership Plan</label>
-                                        <select class="form-select bg-white border" id="membershipPlan" required>
-                                            <option value="" selected disabled>Choose a plan</option>
-                                            <option value="basic">Basic</option>
-                                            <option value="standard">Standard</option>
-                                            <option value="premium">Premium</option>
-                                        </select>
-                                    </div>
-
-                                    <!-- Submit Button -->
-                                    <div class="col-12 text-md-end">
-                                        <button type="submit" class="btn btn-warning w-100 w-md-auto">
-                                            Activate Membership
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-
-                        </div>
                     <?php
+                        }
                     } ?>
 
 
                     <div class="mt-3 border rounded border-1 py-4 px-4 bg-light">
                         <h4 class="personal-details-title" style="font-weight: 500; margin-bottom: 15px;">Personal Details</h4>
-                        <form onsubmit="updateProfile(event)">
+                        <form>
                             <div class="row g-4 mb-3">
                                 <!-- First Name -->
                                 <div class="col-md-6">
                                     <label for="firstName" class="form-label personal-details-title">First Name</label>
-                                    <input type="text" class="form-control bg-white text-dark border " id="firstName" placeholder="John" maxlength="30" required />
+                                    <input type="text" class="form-control bg-light text-dark border " id="firstName" placeholder="John" maxlength="30" required disabled value="<?php echo $data["first_name"]; ?>" />
                                 </div>
 
                                 <!-- Last Name -->
                                 <div class="col-md-6">
                                     <label for="lastName" class="form-label personal-details-title">Last Name</label>
-                                    <input type="text" class="form-control bg-white text-dark  border " id="lastName" placeholder="Doe" maxlength="30" required />
+                                    <input type="text" class="form-control bg-light text-dark  border " id="lastName" placeholder="Doe" maxlength="30" required disabled value="<?php echo $data["last_name"]; ?>" />
                                 </div>
 
                                 <!-- Email -->
                                 <div class="col-md-6">
                                     <label for="email" class="form-label personal-details-title">Email</label>
-                                    <input type="email" class="form-control bg-white text-dark  border " id="email" placeholder="john@example.com" required />
+                                    <input type="email" class="form-control bg-light text-dark  border " id="email" placeholder="john@example.com" disabled value="<?php echo $data["email"]; ?>" />
                                 </div>
 
                                 <!-- Phone -->
                                 <div class="col-md-6">
                                     <label for="phone" class="form-label personal-details-title">Contact Number</label>
-                                    <input type="tel" class="form-control bg-white text-dark  border " id="phone" placeholder="07XXXXXXXX" pattern="^07[01245678][0-9]{7}$" required />
+                                    <input type="tel" class="form-control bg-light text-dark  border " id="phone" placeholder="07XXXXXXXX" pattern="^07[01245678][0-9]{7}$" disabled required value="<?php echo $data["contact"]; ?>" />
                                 </div>
 
-                                <!-- Gender -->
-                                <div class="col-md-6">
-                                    <label for="gender" class="form-label personal-details-title">Gender</label>
-                                    <select class="form-select bg-white text-dark  border rounded" id="gender" required>
-                                        <option value="" disabled selected>Select Gender</option>
-                                        <option>Male</option>
-                                        <option>Female</option>
-                                        <option>Other</option>
-                                    </select>
-                                </div>
+                                <?php
+                                $userdata_rs = Database::search("SELECT * FROM `user`");
 
-                                <!-- Birthday -->
-                                <div class="col-md-6">
-                                    <label for="birthday" class="form-label personal-details-title">Birthday</label>
-                                    <input type="date" class="form-control bg-white text-dark  border " id="birthday" required />
-                                </div>
+                                if ($userdata_rs->num_rows > 0) {
+                                    $usrdata = $userdata_rs->fetch_assoc();
+                                ?>
 
-                                <!-- Weight -->
-                                <div class="col-md-6">
-                                    <label for="weight" class="form-label personal-details-title">Weight (kg)</label>
-                                    <input
-                                        type="number"
-                                        class="form-control bg-white text-dark  border "
-                                        id="weight"
-                                        placeholder="e.g. 70"
-                                        min="1"
-                                        max="500"
-                                        step="0.1"
-                                        required />
-                                </div>
+                                    <!-- Gender -->
+                                    <div class="col-md-6">
+                                        <label for="gender" class="form-label personal-details-title">Gender</label>
+                                        <select
+                                            class="form-select bg-white text-dark border rounded"
+                                            id="gender"
+                                            name="gender"
+                                            required
+                                            <?php echo (isset($usrdata["gender_id"]) && !empty($usrdata["gender_id"])) ? 'disabled' : ''; ?>>
+                                            <option value="" disabled <?php echo (!isset($usrdata["gender_id"]) || empty($usrdata["gender_id"])) ? "selected" : ""; ?>>
+                                                Select Gender
+                                            </option>
+                                            <option value="1" <?php echo (isset($usrdata["gender_id"]) && $usrdata["gender_id"] == 1) ? "selected" : ""; ?>>
+                                                Male
+                                            </option>
+                                            <option value="2" <?php echo (isset($usrdata["gender_id"]) && $usrdata["gender_id"] == 2) ? "selected" : ""; ?>>
+                                                Female
+                                            </option>
+                                        </select>
+                                    </div>
 
-                                <!-- Height -->
-                                <div class="col-md-6">
-                                    <label for="height" class="form-label personal-details-title">Height (cm)</label>
-                                    <input
-                                        type="number"
-                                        class="form-control bg-white text-dark  border "
-                                        id="height"
-                                        placeholder="e.g. 175"
-                                        min="30"
-                                        max="300"
-                                        step="0.1"
-                                        required />
-                                </div>
+
+                                    <!-- Birthday -->
+                                    <div class="col-md-6">
+                                        <label for="birthday" class="form-label personal-details-title">Birthday</label>
+                                        <input
+                                            type="date"
+                                            class="form-control bg-white text-dark border"
+                                            id="birthday"
+                                            name="birthday"
+                                            required
+                                            value="<?php echo isset($usrdata['bday']) ? $usrdata['bday'] : ''; ?>"
+                                            <?php echo isset($usrdata['bday']) ? 'disabled' : ''; ?> />
+                                    </div>
+
+                                    <!-- Weight -->
+                                    <div class="col-md-6">
+                                        <label for="weight" class="form-label personal-details-title">Weight (kg)</label>
+                                        <input
+                                            type="number"
+                                            class="form-control bg-white text-dark  border "
+                                            id="weight"
+                                            placeholder="e.g. 70"
+                                            min="1"
+                                            max="500"
+                                            step="0.1"
+                                            required
+                                            value="<?php echo $usrdata["weight"]; ?>" />
+                                    </div>
+
+                                    <!-- Height -->
+                                    <div class="col-md-6">
+                                        <label for="height" class="form-label personal-details-title">Height (cm)</label>
+                                        <input
+                                            type="number"
+                                            class="form-control bg-white text-dark  border "
+                                            id="height"
+                                            placeholder="e.g. 175"
+                                            min="30"
+                                            max="300"
+                                            step="0.1"
+                                            required
+                                            value="<?php echo $usrdata["height"]; ?>" />
+                                    </div>
+
+                                <?php
+
+                                }
+                                ?>
+
+
 
 
                             </div>
 
                             <div class="d-grid mt-4">
-                                <button type="submit" class="btn btn-outline-warning btn-rounded login-title fw-bold">Update Profile</button>
+                                <button type="button" class="btn btn-outline-warning btn-rounded login-title fw-bold" onclick="UpdateProfile(<?php echo $user_id ?>);">Update Profile</button>
                             </div>
                         </form>
 
@@ -283,125 +378,89 @@
                     <p style="font-family: Rajdhani, sans-serif; ">Your class schedules and bookings.</p>
                     <div>
                         <div class="row py-3">
-                            <div class="col-lg-4 col-md-6">
-                                <div class="single-schedules-inner">
-                                    <div class="date d-flex align-items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-alarm" viewBox="0 0 16 16">
-                                            <path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9z" />
-                                            <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1zm1.038 3.018a6 6 0 0 1 .924 0 6 6 0 1 1-.924 0M0 3.5c0 .753.333 1.429.86 1.887A8.04 8.04 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5M13.5 1c-.753 0-1.429.333-1.887.86a8.04 8.04 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1" />
-                                        </svg>
-                                        <span class="ms-2">2025/04/19 - 5:00pm -6:30pm</span>
+                            <?php
+                            $schedule_rs = Database::search("SELECT * FROM user_has_class INNER JOIN classes ON user_has_class.classes_class_id = classes.class_id INNER JOIN trainer ON classes.trainer_id = trainer.id WHERE user_has_class.user_user_id = '" . $user_id . "'");
 
-                                    </div>
-                                    <h5>Full Body Strength Training</h5>
-                                    <p>Burn fat and build muscle with a high-intensity full-body workout targeting all major muscle groups.</p>
-                                    <div class="media">
-                                        <div class="media-body align-self-center">
-                                            <h6>Instructor: John Carter</h6>
+                            if ($schedule_rs->num_rows > 0) {
+                                while ($schedule_data = $schedule_rs->fetch_assoc()) {
+                            ?>
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="single-schedules-inner">
+                                            <div class="date d-flex align-items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                                    class="bi bi-alarm" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9z" />
+                                                    <path
+                                                        d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1zm1.038 3.018a6 6 0 0 1 .924 0 6 6 0 1 1-.924 0M0 3.5c0 .753.333 1.429.86 1.887A8.04 8.04 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5M13.5 1c-.753 0-1.429.333-1.887.86a8.04 8.04 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1" />
+                                                </svg>
+                                                <span class="ms-2"><?php echo $schedule_data["date_time"]; ?></span>
+                                            </div>
+                                            <h5><?php echo $schedule_data["title"]; ?></h5>
+                                            <p><?php echo $schedule_data["description"]; ?></p>
+                                            <div class="media">
+                                                <div class="media-body align-self-center">
+                                                    <h6>Instructor: <?php echo $schedule_data["name"]; ?></h6>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6">
-                                <div class="single-schedules-inner">
-                                    <div class="date d-flex align-items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-alarm" viewBox="0 0 16 16">
-                                            <path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9z" />
-                                            <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1zm1.038 3.018a6 6 0 0 1 .924 0 6 6 0 1 1-.924 0M0 3.5c0 .753.333 1.429.86 1.887A8.04 8.04 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5M13.5 1c-.753 0-1.429.333-1.887.86a8.04 8.04 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1" />
-                                        </svg>
-                                        <span class="ms-2">2025/04/19 - 5:00pm -6:30pm</span>
-
-                                    </div>
-                                    <h5>Full Body Strength Training</h5>
-                                    <p>Burn fat and build muscle with a high-intensity full-body workout targeting all major muscle groups.</p>
-                                    <div class="media">
-                                        <div class="media-body align-self-center">
-                                            <h6>Instructor: John Carter</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6">
-                                <div class="single-schedules-inner">
-                                    <div class="date d-flex align-items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-alarm" viewBox="0 0 16 16">
-                                            <path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9z" />
-                                            <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1zm1.038 3.018a6 6 0 0 1 .924 0 6 6 0 1 1-.924 0M0 3.5c0 .753.333 1.429.86 1.887A8.04 8.04 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5M13.5 1c-.753 0-1.429.333-1.887.86a8.04 8.04 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1" />
-                                        </svg>
-                                        <span class="ms-2">2025/04/19 - 5:00pm -6:30pm</span>
-
-                                    </div>
-                                    <h5>Full Body Strength Training</h5>
-                                    <p>Burn fat and build muscle with a high-intensity full-body workout targeting all major muscle groups.</p>
-                                    <div class="media">
-                                        <div class="media-body align-self-center">
-                                            <h6>Instructor: John Carter</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                <?php
+                                }
+                            } else {
+                                ?>
+                                <span class="alert alert-warning">No Schedule Yet.</span>
+                            <?php
+                            }
+                            ?>
                         </div>
+
 
                     </div>
                 </div>
 
                 <div id="classes" class="custom-section d-none">
                     <h2 class="profile-section-header fw-bold">Classes</h2>
+
                     <div class="py-3">
-                        <div class="row" id="classCardsContainer">
-                            <!-- Example card -->
-                            <div class="col-12 col-sm-6 col-lg-4 mb-4">
-                                <label>
-                                    <input type="radio" name="selectedClass" class="class-radio" value="class-id-1" />
-                                    <div class="card class-card p-3 h-100">
-                                        <div class="card-body">
-                                            <h5 class="card-title personal-details-title" style="font-weight: 600;">Yoga Basics</h5>
-                                            <p class="card-text personal-details-title">Learn yoga with expert guidance. Perfect for beginners.</p>
-                                            <ul class="mb-2">
-                                                <li><strong>Date:</strong> 2024-04-25</li>
-                                                <li><strong>Time:</strong> 6:00 PM - 7:00 PM</li>
-                                                <li><strong>Instructor:</strong> Jane Doe</li>
-                                                <li><strong>Price:</strong> $30/month</li>
-                                            </ul>
-                                        </div>
+                        <?php
+                        $class_rs = Database::search("SELECT * FROM `classes` INNER JOIN trainer ON classes.trainer_id = trainer.id");
+
+                        if ($class_rs->num_rows > 0) {
+                        ?>
+                            <div class="row" id="classCardsContainer">
+                                <?php while ($class_data = $class_rs->fetch_assoc()) { ?>
+                                    <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                                        <label>
+
+                                            <input type="radio" name="selectedClass" id="classIdRadio" class="class-radio" value="<?php echo $class_data['class_id']; ?>" />
+                                            <div class="card class-card p-3 h-100">
+                                                <div class="card-body">
+                                                    <h5 class="card-title personal-details-title" style="font-weight: 600;">
+                                                        <?php echo htmlspecialchars($class_data['title']); ?>
+                                                    </h5>
+                                                    <p class="card-text personal-details-title">
+                                                        <?php echo htmlspecialchars($class_data['description']); ?>
+                                                    </p>
+                                                    <ul class="mb-2">
+                                                        <li><strong>Date & Time:</strong> <?php echo htmlspecialchars($class_data['date_time']); ?></li>
+                                                        <li><strong>Price:</strong> LKR <?php echo htmlspecialchars($class_data['price']); ?>/mo</li>
+                                                        <li><strong>Instructor:</strong> <?php echo htmlspecialchars($class_data['name']); ?></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </label>
                                     </div>
-                                </label>
+                                <?php } ?>
                             </div>
-                            <div class="col-12 col-sm-6 col-lg-4 mb-4">
-                                <label>
-                                    <input type="radio" name="selectedClass" class="class-radio" value="class-id-1" />
-                                    <div class="card class-card p-3 h-100">
-                                        <div class="card-body">
-                                            <h5 class="card-title personal-details-title" style="font-weight: 600;">Yoga Basics</h5>
-                                            <p class="card-text personal-details-title">Learn yoga with expert guidance. Perfect for beginners.</p>
-                                            <ul class="mb-2">
-                                                <li><strong>Date:</strong> 2024-04-25</li>
-                                                <li><strong>Time:</strong> 6:00 PM - 7:00 PM</li>
-                                                <li><strong>Instructor:</strong> Jane Doe</li>
-                                                <li><strong>Price:</strong> $30/month</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="col-12 col-sm-6 col-lg-4 mb-4">
-                                <label>
-                                    <input type="radio" name="selectedClass" class="class-radio" value="class-id-1" />
-                                    <div class="card class-card p-3 h-100">
-                                        <div class="card-body">
-                                            <h5 class="card-title personal-details-title" style="font-weight: 600;">Yoga Basics</h5>
-                                            <p class="card-text personal-details-title">Learn yoga with expert guidance. Perfect for beginners.</p>
-                                            <ul class="mb-2">
-                                                <li><strong>Date:</strong> 2024-04-25</li>
-                                                <li><strong>Time:</strong> 6:00 PM - 7:00 PM</li>
-                                                <li><strong>Instructor:</strong> Jane Doe</li>
-                                                <li><strong>Price:</strong> $30/month</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
+                        <?php
+                        } else {
+                        ?>
+                            <p>No classes to display.</p>
+                        <?php
+                        }
+                        ?>
+
                         <div class="container my-5">
                             <h3 class="mb-3 personal-details-title">Register for a Class</h3>
                             <hr />
@@ -432,11 +491,11 @@
                                 <div class="row align-items-center gy-3">
                                     <label for="depositSlip" class="form-label">Upload Deposit Slip</label>
                                     <div class="col-md-8">
-                                        <input type="file" class="form-control bg-white border" id="depositSlip" required />
+                                        <input type="file" class="form-control bg-white border" id="classFeeDepositSlip" required />
                                     </div>
 
                                     <div class="col-md-4 text-md-end">
-                                        <button type="submit" class="btn btn-warning w-100 w-md-auto mt-2 mt-md-0">
+                                        <button type="button" class="btn btn-warning w-100 w-md-auto mt-2 mt-md-0" onclick="registerForClass(<?php echo $user_id; ?>);">
                                             Register Now
                                         </button>
                                     </div>
@@ -445,6 +504,8 @@
                         </div>
                     </div>
                 </div>
+
+
                 <div id="inquiries" class="custom-section d-none">
 
                     <h2 class="mb-3 profile-section-header fw-bold">Submit an Inquiry</h2>
@@ -460,38 +521,61 @@
                             <textarea class="form-control bg-white border" id="inquiryMessage" rows="4" placeholder="Type your inquiry here..." required></textarea>
                         </div>
 
-                        <button type="submit" class="btn btn-warning personal-details-title">Send Inquiry</button>
+                        <button type="button" class="btn btn-warning personal-details-title" onclick="sendInquiry(<?php echo $user_id; ?>)">Send Inquiry</button>
                     </form>
 
                     <!-- Replies Section -->
                     <h4 class="mb-3 personal-details-title">Your Previous Inquiries & Replies</h4>
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover service-description">
-                            <thead class="table-light">
-                                <tr>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Your Message</th>
-                                    <th scope="col">Staff Reply</th>
-                                    <th scope="col">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Sample row -->
-                                <tr>
-                                    <td>2025/04/19</td>
-                                    <td>Can I move my Yoga class to Monday?</td>
-                                    <td>Yes, we've rescheduled it to Monday 6PM.</td>
-                                    <td><span class="badge bg-success">Replied</span></td>
-                                </tr>
-                                <tr>
-                                    <td>2025/04/19</td>
-                                    <td>I paid but it doesn't reflect.</td>
-                                    <td>We're checking with accounts. Will update soon.</td>
-                                    <td><span class="badge bg-warning text-dark">Pending</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <?php
+
+                        $inquery_rs = Database::search("SELECT * FROM inquery WHERE from_user_id = '" . $user_id . "' ORDER BY sent_date_time DESC");
+
+                        if ($inquery_rs->num_rows > 0) {
+                        ?>
+                            <table class="table table-bordered table-hover service-description">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Your Message</th>
+                                        <th scope="col">Staff Reply</th>
+                                        <th scope="col">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php while ($row = $inquery_rs->fetch_assoc()) { ?>
+                                        <tr>
+                                            <td><?php echo date("Y/m/d", strtotime($row["sent_date_time"])); ?></td>
+                                            <td><?php echo htmlspecialchars($row["message"]); ?></td>
+                                            <td>
+                                                <?php
+                                                if ($row["status"] === "pending") {
+                                                    echo "<em class='text-muted'>Awaiting reply...</em>";
+                                                } else {
+                                                    echo htmlspecialchars($row["reply"]);
+                                                }
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                if ($row["status"] === "pending") {
+                                                    echo "<span class='badge bg-warning text-dark'>Pending</span>";
+                                                } else {
+                                                    echo "<span class='badge bg-success'>Replied</span>";
+                                                }
+                                                ?>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        <?php
+                        } else {
+                            echo "<div class='alert alert-warning'>No inquiries yet.</div>";
+                        }
+                        ?>
                     </div>
+
                 </div>
 
             </div>

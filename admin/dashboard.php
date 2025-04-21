@@ -135,12 +135,13 @@
                     <li class="nav-item mb-2">
                         <a href="#" class="nav-link text-white custom-sidebar-link" data-section="dashboard">Dashboard</a>
                     </li>
+                    <li class="nav-item mb-2">
+                        <a href="#" class="nav-link text-white custom-sidebar-link" data-section="user_management">User Management</a>
+                    </li>
                     <?php
                     if (true) {
                     ?>
-                        <li class="nav-item mb-2">
-                            <a href="#" class="nav-link text-white custom-sidebar-link" data-section="user_management">User Management</a>
-                        </li>
+
                         <li class="nav-item mb-2">
                             <a href="#" class="nav-link text-white custom-sidebar-link" data-section="staff_management">Staff Management</a>
                         </li>
@@ -244,7 +245,7 @@
             </div>
 
             <div id="user_management" class="custom-section d-none">
-                <h2 class="profile-section-header fw-bold mb-4">User Management</h2>
+                <h2 class="profile-section-header fw-bold mb-">User Management</h2>
 
                 <!-- Search Bar -->
                 <div class="col-12 mb-4">
@@ -261,79 +262,108 @@
                     </div>
                 </div>
 
+                <?php
+                if (false) {
+                ?>
+
+                    <!-- User Cards Container -->
+                    <div id="userCards" class="row g-3">
+                        <!-- Example User Card -->
+                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
+                            <div class="card h-100 shadow-sm p-2">
+                                <div class="card-body p-2 text-center">
+                                    <h6 class="fw-bold mb-1">John Doe</h6>
+                                    <small class="d-block text-muted">M12345</small>
+                                    <small class="d-block text-muted">john@example.com</small>
+                                    <small class="d-block text-muted">+1234567890</small>
+                                    <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
+                            <div class="card h-100 shadow-sm p-2">
+                                <div class="card-body p-2 text-center">
+                                    <h6 class="fw-bold mb-1">John Doe</h6>
+                                    <small class="d-block text-muted">M12345</small>
+                                    <small class="d-block text-muted">john@example.com</small>
+                                    <small class="d-block text-muted">+1234567890</small>
+                                    <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
+                            <div class="card h-100 shadow-sm p-2">
+                                <div class="card-body p-2 text-center">
+                                    <h6 class="fw-bold mb-1">John Doe</h6>
+                                    <small class="d-block text-muted">M12345</small>
+                                    <small class="d-block text-muted">john@example.com</small>
+                                    <small class="d-block text-muted">+1234567890</small>
+                                    <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
+                            <div class="card h-100 shadow-sm p-2">
+                                <div class="card-body p-2 text-center">
+                                    <h6 class="fw-bold mb-1">John Doe</h6>
+                                    <small class="d-block text-muted">M12345</small>
+                                    <small class="d-block text-muted">john@example.com</small>
+                                    <small class="d-block text-muted">+1234567890</small>
+                                    <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
+                            <div class="card h-100 shadow-sm p-2">
+                                <div class="card-body p-2 text-center">
+                                    <h6 class="fw-bold mb-1">John Doe</h6>
+                                    <small class="d-block text-muted">M12345</small>
+                                    <small class="d-block text-muted">john@example.com</small>
+                                    <small class="d-block text-muted">+1234567890</small>
+                                    <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
+                            <div class="card h-100 shadow-sm p-2">
+                                <div class="card-body p-2 text-center">
+                                    <h6 class="fw-bold mb-1">John Doe</h6>
+                                    <small class="d-block text-muted">M12345</small>
+                                    <small class="d-block text-muted">john@example.com</small>
+                                    <small class="d-block text-muted">+1234567890</small>
+                                    <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php
+                }
+                ?>
+                <p style="font-family: Rajdhani, sans-serif; ">Membership requests to accept or deny.</p>
 
                 <!-- User Cards Container -->
                 <div id="userCards" class="row g-3">
                     <!-- Example User Card -->
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
+                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card mb-3">
                         <div class="card h-100 shadow-sm p-2">
                             <div class="card-body p-2 text-center">
                                 <h6 class="fw-bold mb-1">John Doe</h6>
-                                <small class="d-block text-muted">M12345</small>
+                                <small class="d-block text-muted">Basic Plan</small>
                                 <small class="d-block text-muted">john@example.com</small>
                                 <small class="d-block text-muted">+1234567890</small>
-                                <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
-                        <div class="card h-100 shadow-sm p-2">
-                            <div class="card-body p-2 text-center">
-                                <h6 class="fw-bold mb-1">John Doe</h6>
-                                <small class="d-block text-muted">M12345</small>
-                                <small class="d-block text-muted">john@example.com</small>
-                                <small class="d-block text-muted">+1234567890</small>
-                                <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
-                        <div class="card h-100 shadow-sm p-2">
-                            <div class="card-body p-2 text-center">
-                                <h6 class="fw-bold mb-1">John Doe</h6>
-                                <small class="d-block text-muted">M12345</small>
-                                <small class="d-block text-muted">john@example.com</small>
-                                <small class="d-block text-muted">+1234567890</small>
-                                <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
-                        <div class="card h-100 shadow-sm p-2">
-                            <div class="card-body p-2 text-center">
-                                <h6 class="fw-bold mb-1">John Doe</h6>
-                                <small class="d-block text-muted">M12345</small>
-                                <small class="d-block text-muted">john@example.com</small>
-                                <small class="d-block text-muted">+1234567890</small>
-                                <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
-                        <div class="card h-100 shadow-sm p-2">
-                            <div class="card-body p-2 text-center">
-                                <h6 class="fw-bold mb-1">John Doe</h6>
-                                <small class="d-block text-muted">M12345</small>
-                                <small class="d-block text-muted">john@example.com</small>
-                                <small class="d-block text-muted">+1234567890</small>
-                                <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card">
-                        <div class="card h-100 shadow-sm p-2">
-                            <div class="card-body p-2 text-center">
-                                <h6 class="fw-bold mb-1">John Doe</h6>
-                                <small class="d-block text-muted">M12345</small>
-                                <small class="d-block text-muted">john@example.com</small>
-                                <small class="d-block text-muted">+1234567890</small>
-                                <button class="btn btn-outline-danger btn-sm mt-2">Block</button>
+
+                                <button class="btn btn-warning btn-sm mt-3 w-100">View</button>
+
+                                <div class="d-flex flex-column flex-sm-row justify-content-center gap-2 mt-2">
+                                    <button class="btn btn-success btn-sm flex-fill">Accept</button>
+                                    <button class="btn btn-danger btn-sm flex-fill">Deny</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
+
 
             <div id="staff_management" class="custom-section d-none">
                 <h2 class="profile-section-header fw-bold mb-4">Staff Management</h2>
@@ -429,126 +459,30 @@
 
             <div id="classes" class="custom-section d-none">
                 <div class="">
-                    <div class="container">
-                        <h3 class="mb-3 personal-details-title">Update Class</h3>
-                        <hr />
+                    <h2 class="profile-section-header fw-bold mb-">Class Management</h2>
 
-                        <!-- Class Selection Dropdown -->
-                        <div class="mb-4">
-                            <label for="classSelect" class="form-label fw-semibold">Select Class</label>
-                            <select class="form-select bg-white border" id="classSelect">
-                                <option selected disabled>Choose a class to update</option>
-                                <option value="1">Yoga Basics</option>
-                                <option value="2">Zumba Burn</option>
-                                <option value="3">HIIT Express</option>
-                            </select>
+                    <p style="font-family: Rajdhani, sans-serif; ">Class requests to accept or deny.</p>
+
+                    <!-- User Cards Container -->
+                    <div id="userCards" class="row g-3">
+                        <!-- Example User Card -->
+                        <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 user-card mb-3">
+                            <div class="card h-100 shadow-sm p-2">
+                                <div class="card-body p-2 text-center">
+                                    <h6 class="fw-bold mb-1">John Doe</h6>
+                                    <small class="d-block text-muted">Yoga Class</small>
+                                    <small class="d-block text-muted">john@example.com</small>
+                                    <small class="d-block text-muted">Rs. 1500</small>
+
+                                    <button class="btn btn-warning btn-sm mt-3 w-100">View</button>
+
+                                    <div class="d-flex flex-column flex-sm-row justify-content-center gap-2 mt-2">
+                                        <button class="btn btn-success btn-sm flex-fill">Accept</button>
+                                        <button class="btn btn-danger btn-sm flex-fill">Deny</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
-                        <!-- Update Form -->
-                        <form id="updateClassForm">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label for="title" class="form-label">Class Title</label>
-                                    <input type="text" class="form-control bg-white border text-black" id="title" required>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label for="instructor" class="form-label">Instructor</label>
-                                    <select class="form-control bg-white border text-black" id="instructor" required>
-                                        <option value="">Select an instructor</option>
-                                        <option value="instructor1">Instructor 1</option>
-                                        <option value="instructor2">Instructor 2</option>
-                                        <option value="instructor3">Instructor 3</option>
-                                        <!-- Add more options as needed -->
-                                    </select>
-                                </div>
-
-
-                                <div class="col-12">
-                                    <label for="description" class="form-label">Description</label>
-                                    <textarea class="form-control bg-white border text-black" id="description" rows="2" required></textarea>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label for="date" class="form-label">Date</label>
-                                    <input type="date" class="form-control bg-white border text-black" id="date" required>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label for="time" class="form-label">Time</label>
-                                    <input type="time" class="form-control bg-white border text-black" id="time" required>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label for="price" class="form-label">Price (LKR/month)</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text bg-white border">RS</span>
-                                        <input type="number" class="form-control bg-white border text-black" id="price" placeholder="30" min="0" step="1" required>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="text-end mt-4">
-                                <button type="submit" class="btn btn-warning px-5">Update Class</button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="container my-5">
-                        <h3 class="mb-3 personal-details-title">Add New Class</h3>
-                        <hr />
-
-                        <form>
-                            <div class="row gy-3">
-
-                                <div class="col-md-6">
-                                    <label for="classTitle" class="form-label">Class Title</label>
-                                    <input type="text" class="form-control bg-white border text-black" id="classTitle" placeholder="Yoga Basics" required>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <label for="instructor" class="form-label">Instructor</label>
-                                    <select class="form-control bg-white border text-black" id="instructor" required>
-                                        <option value="">Select an instructor</option>
-                                        <option value="instructor1">Instructor 1</option>
-                                        <option value="instructor2">Instructor 2</option>
-                                        <option value="instructor3">Instructor 3</option>
-                                        <!-- Add more options as needed -->
-                                    </select>
-                                </div>
-
-                                <div class="col-md-12">
-                                    <label for="description" class="form-label">Description</label>
-                                    <textarea class="form-control bg-white border text-black" id="description" rows="3" placeholder="Learn yoga with expert guidance. Perfect for beginners." required></textarea>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label for="date" class="form-label">Date</label>
-                                    <input type="date" class="form-control bg-white border text-black" id="date" required>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label for="time" class="form-label">Time</label>
-                                    <input type="time" class="form-control bg-white border text-black" id="time" required>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label for="price" class="form-label">Price (LKR/month)</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text border">RS</span>
-                                        <input type="number" class="form-control bg-white border text-black" id="price" placeholder="30" min="0" required>
-                                    </div>
-                                </div>
-
-                                <div class="col-12 text-end">
-                                    <button type="submit" class="btn btn-warning mt-3 px-5">
-                                        Add New Class
-                                    </button>
-                                </div>
-
-                            </div>
-                        </form>
                     </div>
 
                 </div>
@@ -633,90 +567,88 @@
             </div>
 
 
-        </div>
+            <!-- Bootstrap Bundle -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-        <!-- Bootstrap Bundle -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+            <!-- Sidebar Toggle and Page Section Switcher -->
+            <script src="../assets/js/script.js"></script>
 
-        <!-- Sidebar Toggle and Page Section Switcher -->
-        <script src="../assets/js/script.js"></script>
-
-        <!-- Donut chart js -->
-        <script>
-            let chart = bb.generate({
-                data: {
-                    columns: [
-                        ["Basic", 2],
-                        ["Standard", 4],
-                        ["Premium", 3],
-                    ],
-                    type: "donut"
-                },
-                donut: {
-                    title: "234",
-                },
-                bindto: "#donut-chart",
-            });
-
-            // Bar chart
-
-            const ctx = document.getElementById('attendanceBarChart').getContext('2d');
-
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Yoga', 'Zumba', 'HIIT', 'Weight Training', 'Pilates', 'Spin'],
-                    datasets: [{
-                        label: 'Attendees',
-                        data: [45, 60, 35, 70, 40, 55],
-                        backgroundColor: [
-                            '#FFC017',
-                            '#FF6B1A',
-                            '#42A5F5',
-                            '#66D19E',
-                            '#6C4AB6',
-                            '#333333'
+            <!-- Donut chart js -->
+            <script>
+                let chart = bb.generate({
+                    data: {
+                        columns: [
+                            ["Basic", 2],
+                            ["Standard", 4],
+                            ["Premium", 3],
                         ],
-                        borderRadius: 8,
-                        barPercentage: 0.6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            backgroundColor: '#000',
-                            titleColor: '#fff',
-                            bodyColor: '#fff'
-                        }
+                        type: "donut"
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: 10,
-                                color: '#555'
+                    donut: {
+                        title: "234",
+                    },
+                    bindto: "#donut-chart",
+                });
+
+                // Bar chart
+
+                const ctx = document.getElementById('attendanceBarChart').getContext('2d');
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Yoga', 'Zumba', 'HIIT', 'Weight Training', 'Pilates', 'Spin'],
+                        datasets: [{
+                            label: 'Attendees',
+                            data: [45, 60, 35, 70, 40, 55],
+                            backgroundColor: [
+                                '#FFC017',
+                                '#FF6B1A',
+                                '#42A5F5',
+                                '#66D19E',
+                                '#6C4AB6',
+                                '#333333'
+                            ],
+                            borderRadius: 8,
+                            barPercentage: 0.6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
                             },
-                            grid: {
-                                color: '#eee'
+                            tooltip: {
+                                backgroundColor: '#000',
+                                titleColor: '#fff',
+                                bodyColor: '#fff'
                             }
                         },
-                        x: {
-                            ticks: {
-                                color: '#555'
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 10,
+                                    color: '#555'
+                                },
+                                grid: {
+                                    color: '#eee'
+                                }
                             },
-                            grid: {
-                                display: false
+                            x: {
+                                ticks: {
+                                    color: '#555'
+                                },
+                                grid: {
+                                    display: false
+                                }
                             }
                         }
                     }
-                }
-            });
-        </script>
+                });
+            </script>
 </body>
 
 </html>
