@@ -4,8 +4,8 @@ require "../includes/db.php";
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST["inquiryMessage"], $_POST["user_id"])) {
 
-        $from_user_id = $_POST["user_id"];
-        $message = $_POST["inquiryMessage"];
+        $from_user_id = addslashes($_POST["user_id"]);
+        $message = addslashes($_POST["inquiryMessage"]);
 
         if (empty(trim($message))) {
             echo "Please enter a message.";

@@ -157,7 +157,7 @@
                                         (once a month)</li>
                                     <li><i class="bi bi-check2 text-primary me-2"></i>Open gym hours</li>
                                 </ul>
-                                <button class="btn btn-outline-warning btn-lg w-100 mt-4">Get Started</button>
+                                <button class="btn btn-outline-warning btn-lg w-100 mt-4" onclick="window.location.href='pages/login.php'">Get Started</button>
                             </div>
                         </div>
                     </div>
@@ -176,7 +176,7 @@
                                     <li><i class="bi bi-check2 text-primary me-2"></i>One personal training session per month</li>
                                     <li><i class="bi bi-check2 text-primary me-2"></i>Nutrition guidance</li>
                                 </ul>
-                                <button class="btn gradient-custom text-white btn-lg w-100 mt-4">Get Started</button>
+                                <button class="btn gradient-custom text-white btn-lg w-100 mt-4" onclick="window.location.href='pages/login.php'">Get Started</button>
                             </div>
                         </div>
                     </div>
@@ -193,7 +193,7 @@
                                     <li><i class="bi bi-check2 text-primary me-2"></i>Custom workout + meal plan</li>
                                     <li><i class="bi bi-check2 text-primary me-2"></i>Priority trainer booking</li>
                                 </ul>
-                                <button class="btn btn-outline-warning btn-lg w-100 mt-4">Get Started</button>
+                                <button class="btn btn-outline-warning btn-lg w-100 mt-4" onclick="window.location.href='pages/login.php'">Get Started</button>
                             </div>
                         </div>
                     </div>
