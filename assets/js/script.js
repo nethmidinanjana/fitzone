@@ -449,7 +449,7 @@ function handleMembershipAction(action, userId, membId) {
             const res = xhr.responseText.trim();
             if (res === "success") {
                 alert(`Membership updated successfully!`);
-                location.reload(); 
+                location.reload();
             } else {
                 alert("Something went wrong");
                 console.log(res);
@@ -459,6 +459,70 @@ function handleMembershipAction(action, userId, membId) {
 
     xhr.send(`action=${action}&user_id=${userId}&memb_id=${membId}`);
 }
+
+function handleClassReqAction(action, userId, classId) {
+
+    const confirmMsg = `Are you sure you want to ${action} this class request?`;
+    if (!confirm(confirmMsg)) return;
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/fitzone/process/classReqActionProcess.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            const res = xhr.responseText.trim();
+            if (res === "success") {
+                alert(`Class request updated successfully!`);
+                location.reload();
+            } else {
+                alert("Something went wrong");
+                console.log(res);
+            }
+        }
+    };
+
+    xhr.send(`action=${action}&user_id=${userId}&classId=${classId}`);
+}
+
+let currentInquiryId = null;
+
+function openReplyModal(inquiryId) {
+    document.getElementById("inquiryId").value = inquiryId;
+    document.getElementById("replyMessage").value = ""; // optional: clear textarea
+    new bootstrap.Modal(document.getElementById("replyModal")).show();
+}
+
+
+function sendReply() {
+    const replyMsg = document.getElementById("replyMessage").value.trim();
+    const inquiryId = document.getElementById("inquiryId").value;
+
+    if (!replyMsg) {
+        alert("Please type a reply message.");
+        return;
+    }
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/fitzone/process/replyInquiryProcess.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText.trim() === "success") {
+                alert("Reply sent successfully!");
+                location.reload(); // Refresh to reflect updated status
+            } else {
+                alert("Failed to send reply: " + xhr.responseText);
+            }
+        }
+    };
+
+    // Send both reply and inquiryId to PHP
+    xhr.send(`inquiry_id=${encodeURIComponent(inquiryId)}&reply=${encodeURIComponent(replyMsg)}`);
+}
+
+
 
 
 // Admin dashboard: End

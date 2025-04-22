@@ -373,10 +373,6 @@
                                                             Deny
                                                         </button>
                                                     </div>
-
-
-
-
                                                 </div>
                                             </div>
                                         </div>
@@ -390,11 +386,6 @@
                         <?php
                         }
                         ?>
-
-
-
-
-
                     </div>
 
 
@@ -463,8 +454,17 @@
 
 
                                                     <div class="d-flex flex-column flex-sm-row justify-content-center gap-2 mt-2">
-                                                        <button class="btn btn-success btn-sm flex-fill">Accept</button>
-                                                        <button class="btn btn-danger btn-sm flex-fill">Deny</button>
+                                                        <button
+                                                            class="btn btn-success btn-sm flex-fill"
+                                                            onclick="handleClassReqAction('accept', <?php echo $cls_req_data['user_user_id']; ?>, <?php echo $cls_req_data['classes_class_id']; ?>)">
+                                                            Accept
+                                                        </button>
+
+                                                        <button
+                                                            class="btn btn-danger btn-sm flex-fill"
+                                                            onclick="handleClassReqAction('deny', <?php echo $cls_req_data['user_user_id']; ?>, <?php echo $cls_req_data['classes_class_id']; ?>)">
+                                                            Deny
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -496,30 +496,46 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th scope="col">Date - Time</th>
-                                        <th scope="col">Membership Id</th>
+                                        <th scope="col">User Id</th>
                                         <th scope="col">Message</th>
                                         <th scope="col">Status</th>
                                     </tr>
                                 </thead>
+
                                 <tbody>
-                                    <!-- Sample row for an unanswered inquiry -->
-                                    <tr>
-                                        <td>2025/04/19 - 11:38:00</td>
-                                        <td>FIT02373</td>
-                                        <td>I paid but it doesn't reflect.</td>
-                                        <td>
-                                            <button class="btn btn-warning">Reply</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2025/04/17 - 09:15:00</td>
-                                        <td>FIT02375</td>
-                                        <td>My membership renewal was unsuccessful.</td>
-                                        <td>
-                                            <button class="btn btn-warning">Reply</button>
-                                        </td>
-                                    </tr>
+                                    <?php
+                                    $inquiry_rs = Database::search("SELECT * FROM inquery WHERE inquery.`status` = 'pending' ORDER BY sent_date_time DESC");
+
+                                    if ($inquiry_rs->num_rows > 0) {
+                                        while ($row = $inquiry_rs->fetch_assoc()) {
+                                    ?>
+                                            <tr>
+                                                <td><?= $row['sent_date_time'] ?></td>
+                                                <td><?= $row['from_user_id'] ?></td>
+                                                <td><?= $row['message'] ?></td>
+                                                <td>
+                                                    <button
+                                                        class="btn btn-warning"
+                                                        onclick="openReplyModal(<?= $row['inquery_id'] ?>)">
+                                                        Reply
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        <?php
+                                        }
+                                    } else {
+                                        ?>
+                                        <tr>
+                                            <td>No Inquiries Yet.</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    <?php
+                                    }
+                                    ?>
                                 </tbody>
+
                             </table>
                         </div>
 
@@ -530,36 +546,68 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th scope="col">Date - Time</th>
-                                        <th scope="col">Membership Id</th>
+                                        <th scope="col">User Id</th>
                                         <th scope="col">Message</th>
                                         <th scope="col">Reply Message</th>
                                         <th scope="col">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- Sample row for a replied inquiry -->
-                                    <tr>
-                                        <td>2025/04/18 - 14:20:00</td>
-                                        <td>FIT02374</td>
-                                        <td>I am unable to log in.</td>
-                                        <td>We’ve reset your password. Please check your email.</td>
-                                        <td>
-                                            <button class="btn btn-success" disabled>Replied</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2025/04/16 - 16:30:00</td>
-                                        <td>FIT02376</td>
-                                        <td>My payment isn't showing up.</td>
-                                        <td>Your payment has been processed. Please check again.</td>
-                                        <td>
-                                            <button class="btn btn-success" disabled>Replied</button>
-                                        </td>
-                                    </tr>
+                                    <?php
+                                    $inqry_rs = Database::search("SELECT * FROM inquery WHERE inquery.`status` = 'replied' ORDER BY sent_date_time DESC");
+
+                                    if ($inqry_rs->num_rows > 0) {
+                                        while ($inqry_data = $inqry_rs->fetch_assoc()) {
+                                    ?>
+                                            <tr>
+                                                <td><?= $inqry_data['sent_date_time'] ?></td>
+                                                <td><?= $inqry_data['from_user_id'] ?></td>
+                                                <td><?= $inqry_data['message'] ?></td>
+                                                <td><?= $inqry_data['reply'] ?></td>
+                                                <td>
+                                                    <button class="btn btn-success" disabled>
+                                                        Replied
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        <?php
+                                        }
+                                    } else {
+                                        ?>
+                                        <tr>
+                                            <td>No Inquiries Yet.</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    <?php
+                                    }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
                     </div>
+
+                    <!-- Reply Modal -->
+                    <div class="modal fade" id="replyModal" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="replyModalLabel">Reply to Inquiry</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <textarea id="replyMessage" class="form-control bg-white text-black border" rows="4" placeholder="Type your reply here..."></textarea>
+                                    <input type="hidden" id="inquiryId">
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button class="btn btn-primary" onclick="sendReply()">Send Reply</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Image Modal -->
                     <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg">
