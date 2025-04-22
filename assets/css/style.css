@@ -444,6 +444,11 @@
   color: #000 !important;
 }
 
+.custom-sidebar .custom-sidebar-link.active {
+  background-color: #ffc107 !important;
+  color: #000 !important;
+}
+
 /* Responsive sidebar behavior */
 @media (max-width: 768px) {
   #custom-sidebar {
@@ -549,7 +554,6 @@
   align-items: center;
   justify-content: center;
 }
-
 
 /* Profile- Schedule section: End */
 

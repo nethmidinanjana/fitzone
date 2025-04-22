@@ -144,7 +144,7 @@
                         <!-- Left-aligned links -->
                         <ul class="nav flex-column mt-4">
                             <li class="nav-item mb-2">
-                                <a href="#" class="nav-link text-white custom-sidebar-link" data-section="dashboard">Dashboard</a>
+                                <a href="#" class="nav-link text-white custom-sidebar-link" data-section="profile">Dashboard</a>
                             </li>
                             <li class="nav-item mb-2">
                                 <a href="#" class="nav-link text-white custom-sidebar-link" data-section="user_management">User Management</a>
@@ -183,7 +183,7 @@
                     <button class="btn btn-warning mb-3 d-md-none" id="custom-toggle-btn">☰ Menu</button>
 
                     <!-- Section Content -->
-                    <div id="dashboard" class="custom-section">
+                    <div id="profile" class="custom-section">
                         <h2 class="profile-section-header fw-bold">Dashboard</h2>
                         <div class=" mt-4">
                             <div class="row">
@@ -322,8 +322,12 @@
                                             </div>
                                         </div>
 
-                                <?php
+                                    <?php
                                     }
+                                } else {
+                                    ?>
+                                    <span class="alert alert-warning">No data to show.</span>
+                                <?php
                                 }
                                 ?>
                             </div>
@@ -376,8 +380,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                <?php
+                                    <?php
                                     }
+                                } else {
+                                    ?>
+                                    <span class="alert alert-warning">No requests yet.</span>
+                                <?php
                                 }
                                 ?>
 

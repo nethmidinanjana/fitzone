@@ -175,20 +175,36 @@ document.addEventListener("DOMContentLoaded", () => {
     const links = document.querySelectorAll(".custom-sidebar-link");
     const sections = document.querySelectorAll(".custom-section");
 
-    if (!toggleBtn || !sidebar || !wrapper) return; // Safety check
+    if (!sidebar || !wrapper) return;
 
-    // Open sidebar
-    toggleBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("show");
-        wrapper.classList.toggle("overlay");
-    });
+    // Sidebar toggle
+    if (toggleBtn) {
+        toggleBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("show");
+            wrapper.classList.toggle("overlay");
+        });
+    }
 
-    // Close sidebar if clicking outside of it
+    // Close sidebar on clicking outside
     wrapper.addEventListener("click", (e) => {
         if (wrapper.classList.contains("overlay") && !sidebar.contains(e.target) && e.target !== toggleBtn) {
             sidebar.classList.remove("show");
             wrapper.classList.remove("overlay");
         }
+    });
+
+    // Restore section from localStorage
+    const savedSection = localStorage.getItem("activeSection") || "profile";
+
+    // Show saved section
+    sections.forEach(section => {
+        section.classList.toggle("d-none", section.id !== savedSection);
+    });
+
+    // Highlight correct nav link
+    links.forEach(link => {
+        const linkSection = link.getAttribute("data-section");
+        link.classList.toggle("active", linkSection === savedSection);
     });
 
     // Section switching logic
@@ -198,16 +214,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const targetId = link.getAttribute("data-section");
 
-            // Hide all sections
-            sections.forEach(section => section.classList.add("d-none"));
+            // Hide all sections and show the target one
+            sections.forEach(section => {
+                section.classList.toggle("d-none", section.id !== targetId);
+            });
 
-            // Show selected section
-            const targetSection = document.getElementById(targetId);
-            if (targetSection) {
-                targetSection.classList.remove("d-none");
-            }
+            // Update active link
+            links.forEach(l => l.classList.remove("active"));
+            link.classList.add("active");
 
-            // Collapse sidebar on small screens
+            // Save selected section
+            localStorage.setItem("activeSection", targetId);
+
+            // Close sidebar on small screens
             if (window.innerWidth < 768) {
                 sidebar.classList.remove("show");
                 wrapper.classList.remove("overlay");
